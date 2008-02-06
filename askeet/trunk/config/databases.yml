@@ -1,5 +1,9 @@
-#all:
-#  propel:
-#    class:          sfPropelDatabase
-#    param:
-#      dsn:          mysql://root@localhost/dbname
+all:
+  propel:
+    class:          sfPropelDatabase
+    param:
+      phptype:  mysql
+      host:     localhost
+      database: askeet
+      username: uAskeet
+      password: abcd
