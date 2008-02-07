@@ -14,11 +14,6 @@
  */
 class questionActions extends sfActions
 {
-  public function executeIndex()
-  {
-    return $this->forward('question', 'list');
-  }
-
   public function executeList()
   {
     $this->questions = QuestionPeer::doSelect(new Criteria());
@@ -30,49 +25,4 @@ class questionActions extends sfActions
     $this->forward404Unless($this->question);
   }
 
-  public function executeCreate()
-  {
-    $this->question = new Question();
-
-    $this->setTemplate('edit');
-  }
-
-  public function executeEdit()
-  {
-    $this->question = QuestionPeer::retrieveByPk($this->getRequestParameter('id'));
-    $this->forward404Unless($this->question);
-  }
-
-  public function executeUpdate()
-  {
-    if (!$this->getRequestParameter('id'))
-    {
-      $question = new Question();
-    }
-    else
-    {
-      $question = QuestionPeer::retrieveByPk($this->getRequestParameter('id'));
-      $this->forward404Unless($question);
-    }
-
-    $question->setId($this->getRequestParameter('id'));
-    $question->setUserId($this->getRequestParameter('user_id') ? $this->getRequestParameter('user_id') : null);
-    $question->setTitle($this->getRequestParameter('title'));
-    $question->setBody($this->getRequestParameter('body'));
-
-    $question->save();
-
-    return $this->redirect('question/show?id='.$question->getId());
-  }
-
-  public function executeDelete()
-  {
-    $question = QuestionPeer::retrieveByPk($this->getRequestParameter('id'));
-
-    $this->forward404Unless($question);
-
-    $question->delete();
-
-    return $this->redirect('question/list');
-  }
 }

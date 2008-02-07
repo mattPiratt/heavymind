@@ -12,7 +12,24 @@
 </head>
 <body>
 
-<?php echo $sf_data->getRaw('sf_content') ?>
+ <div id="header">
+    <ul>
+      <li><?php echo link_to('about', '@homepage') ?></li>
+    </ul>
+    <h1><?php echo link_to(image_tag('askeet_logo.gif', 'alt=askeet'), '@homepage') ?></h1>
+  </div>
+ 
+  <div id="content">
+    <div id="content_main">
+      <?php echo $sf_data->getRaw('sf_content') ?>
+      <div class="verticalalign"></div>
+    </div>
+ 
+    <div id="content_bar">
+      <!-- Nothing for the moment -->
+      <div class="verticalalign"></div>
+    </div>
+  </div>
 
 </body>
 </html>
