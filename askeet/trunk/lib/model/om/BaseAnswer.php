@@ -25,6 +25,14 @@ abstract class BaseAnswer extends BaseObject  implements Persistent {
 
 
 	
+	protected $relevancy_up = 0;
+
+
+	
+	protected $relevancy_down = 0;
+
+
+	
 	protected $created_at;
 
 	
@@ -71,6 +79,20 @@ abstract class BaseAnswer extends BaseObject  implements Persistent {
 	{
 
 		return $this->body;
+	}
+
+	
+	public function getRelevancyUp()
+	{
+
+		return $this->relevancy_up;
+	}
+
+	
+	public function getRelevancyDown()
+	{
+
+		return $this->relevancy_down;
 	}
 
 	
@@ -168,6 +190,38 @@ abstract class BaseAnswer extends BaseObject  implements Persistent {
 
 	} 
 	
+	public function setRelevancyUp($v)
+	{
+
+		
+		
+		if ($v !== null && !is_int($v) && is_numeric($v)) {
+			$v = (int) $v;
+		}
+
+		if ($this->relevancy_up !== $v || $v === 0) {
+			$this->relevancy_up = $v;
+			$this->modifiedColumns[] = AnswerPeer::RELEVANCY_UP;
+		}
+
+	} 
+	
+	public function setRelevancyDown($v)
+	{
+
+		
+		
+		if ($v !== null && !is_int($v) && is_numeric($v)) {
+			$v = (int) $v;
+		}
+
+		if ($this->relevancy_down !== $v || $v === 0) {
+			$this->relevancy_down = $v;
+			$this->modifiedColumns[] = AnswerPeer::RELEVANCY_DOWN;
+		}
+
+	} 
+	
 	public function setCreatedAt($v)
 	{
 
@@ -197,13 +251,17 @@ abstract class BaseAnswer extends BaseObject  implements Persistent {
 
 			$this->body = $rs->getString($startcol + 3);
 
-			$this->created_at = $rs->getTimestamp($startcol + 4, null);
+			$this->relevancy_up = $rs->getInt($startcol + 4);
+
+			$this->relevancy_down = $rs->getInt($startcol + 5);
+
+			$this->created_at = $rs->getTimestamp($startcol + 6, null);
 
 			$this->resetModified();
 
 			$this->setNew(false);
 
-						return $startcol + 5; 
+						return $startcol + 7; 
 		} catch (Exception $e) {
 			throw new PropelException("Error populating Answer object", $e);
 		}
@@ -394,6 +452,12 @@ abstract class BaseAnswer extends BaseObject  implements Persistent {
 				return $this->getBody();
 				break;
 			case 4:
+				return $this->getRelevancyUp();
+				break;
+			case 5:
+				return $this->getRelevancyDown();
+				break;
+			case 6:
 				return $this->getCreatedAt();
 				break;
 			default:
@@ -410,7 +474,9 @@ abstract class BaseAnswer extends BaseObject  implements Persistent {
 			$keys[1] => $this->getQuestionId(),
 			$keys[2] => $this->getUserId(),
 			$keys[3] => $this->getBody(),
-			$keys[4] => $this->getCreatedAt(),
+			$keys[4] => $this->getRelevancyUp(),
+			$keys[5] => $this->getRelevancyDown(),
+			$keys[6] => $this->getCreatedAt(),
 		);
 		return $result;
 	}
@@ -439,6 +505,12 @@ abstract class BaseAnswer extends BaseObject  implements Persistent {
 				$this->setBody($value);
 				break;
 			case 4:
+				$this->setRelevancyUp($value);
+				break;
+			case 5:
+				$this->setRelevancyDown($value);
+				break;
+			case 6:
 				$this->setCreatedAt($value);
 				break;
 		} 	}
@@ -452,7 +524,9 @@ abstract class BaseAnswer extends BaseObject  implements Persistent {
 		if (array_key_exists($keys[1], $arr)) $this->setQuestionId($arr[$keys[1]]);
 		if (array_key_exists($keys[2], $arr)) $this->setUserId($arr[$keys[2]]);
 		if (array_key_exists($keys[3], $arr)) $this->setBody($arr[$keys[3]]);
-		if (array_key_exists($keys[4], $arr)) $this->setCreatedAt($arr[$keys[4]]);
+		if (array_key_exists($keys[4], $arr)) $this->setRelevancyUp($arr[$keys[4]]);
+		if (array_key_exists($keys[5], $arr)) $this->setRelevancyDown($arr[$keys[5]]);
+		if (array_key_exists($keys[6], $arr)) $this->setCreatedAt($arr[$keys[6]]);
 	}
 
 	
@@ -464,6 +538,8 @@ abstract class BaseAnswer extends BaseObject  implements Persistent {
 		if ($this->isColumnModified(AnswerPeer::QUESTION_ID)) $criteria->add(AnswerPeer::QUESTION_ID, $this->question_id);
 		if ($this->isColumnModified(AnswerPeer::USER_ID)) $criteria->add(AnswerPeer::USER_ID, $this->user_id);
 		if ($this->isColumnModified(AnswerPeer::BODY)) $criteria->add(AnswerPeer::BODY, $this->body);
+		if ($this->isColumnModified(AnswerPeer::RELEVANCY_UP)) $criteria->add(AnswerPeer::RELEVANCY_UP, $this->relevancy_up);
+		if ($this->isColumnModified(AnswerPeer::RELEVANCY_DOWN)) $criteria->add(AnswerPeer::RELEVANCY_DOWN, $this->relevancy_down);
 		if ($this->isColumnModified(AnswerPeer::CREATED_AT)) $criteria->add(AnswerPeer::CREATED_AT, $this->created_at);
 
 		return $criteria;
@@ -500,6 +576,10 @@ abstract class BaseAnswer extends BaseObject  implements Persistent {
 		$copyObj->setUserId($this->user_id);
 
 		$copyObj->setBody($this->body);
+
+		$copyObj->setRelevancyUp($this->relevancy_up);
+
+		$copyObj->setRelevancyDown($this->relevancy_down);
 
 		$copyObj->setCreatedAt($this->created_at);
 

@@ -5,12 +5,10 @@
 <?php foreach($questions as $question): ?>
   <div class="question">
     <div class="interested_block">
-      <div class="interested_mark" id="interested_in_<?php echo $question->getId() ?>">
-        <?php echo count($question->getInterests()) ?>
-      </div>
+      <?php include_partial('interested_user', array('question' => $question)) ?>
     </div>
  
-    <h2><?php echo link_to($question->getTitle(), 'question/show?id='.$question->getId()) ?></h2>
+    <h2><?php echo link_to($question->getTitle(), 'question/show?stripped_title='.$question->getStrippedTitle()) ?></h2>
  
     <div class="question_body">
       <?php echo truncate_text($question->getBody(), 200) ?>

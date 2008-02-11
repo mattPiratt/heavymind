@@ -40,6 +40,10 @@ class AnswerMapBuilder {
 
 		$tMap->addColumn('BODY', 'Body', 'string', CreoleTypes::LONGVARCHAR, false, null);
 
+		$tMap->addColumn('RELEVANCY_UP', 'RelevancyUp', 'int', CreoleTypes::INTEGER, false, null);
+
+		$tMap->addColumn('RELEVANCY_DOWN', 'RelevancyDown', 'int', CreoleTypes::INTEGER, false, null);
+
 		$tMap->addColumn('CREATED_AT', 'CreatedAt', 'int', CreoleTypes::TIMESTAMP, false, null);
 
 	} 

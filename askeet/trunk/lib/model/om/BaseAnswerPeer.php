@@ -13,7 +13,7 @@ abstract class BaseAnswerPeer {
 	const CLASS_DEFAULT = 'lib.model.Answer';
 
 	
-	const NUM_COLUMNS = 5;
+	const NUM_COLUMNS = 7;
 
 	
 	const NUM_LAZY_LOAD_COLUMNS = 0;
@@ -32,6 +32,12 @@ abstract class BaseAnswerPeer {
 	const BODY = 'ask_answer.BODY';
 
 	
+	const RELEVANCY_UP = 'ask_answer.RELEVANCY_UP';
+
+	
+	const RELEVANCY_DOWN = 'ask_answer.RELEVANCY_DOWN';
+
+	
 	const CREATED_AT = 'ask_answer.CREATED_AT';
 
 	
@@ -40,18 +46,18 @@ abstract class BaseAnswerPeer {
 
 	
 	private static $fieldNames = array (
-		BasePeer::TYPE_PHPNAME => array ('Id', 'QuestionId', 'UserId', 'Body', 'CreatedAt', ),
-		BasePeer::TYPE_COLNAME => array (AnswerPeer::ID, AnswerPeer::QUESTION_ID, AnswerPeer::USER_ID, AnswerPeer::BODY, AnswerPeer::CREATED_AT, ),
-		BasePeer::TYPE_FIELDNAME => array ('id', 'question_id', 'user_id', 'body', 'created_at', ),
-		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, )
+		BasePeer::TYPE_PHPNAME => array ('Id', 'QuestionId', 'UserId', 'Body', 'RelevancyUp', 'RelevancyDown', 'CreatedAt', ),
+		BasePeer::TYPE_COLNAME => array (AnswerPeer::ID, AnswerPeer::QUESTION_ID, AnswerPeer::USER_ID, AnswerPeer::BODY, AnswerPeer::RELEVANCY_UP, AnswerPeer::RELEVANCY_DOWN, AnswerPeer::CREATED_AT, ),
+		BasePeer::TYPE_FIELDNAME => array ('id', 'question_id', 'user_id', 'body', 'relevancy_up', 'relevancy_down', 'created_at', ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, )
 	);
 
 	
 	private static $fieldKeys = array (
-		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'QuestionId' => 1, 'UserId' => 2, 'Body' => 3, 'CreatedAt' => 4, ),
-		BasePeer::TYPE_COLNAME => array (AnswerPeer::ID => 0, AnswerPeer::QUESTION_ID => 1, AnswerPeer::USER_ID => 2, AnswerPeer::BODY => 3, AnswerPeer::CREATED_AT => 4, ),
-		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'question_id' => 1, 'user_id' => 2, 'body' => 3, 'created_at' => 4, ),
-		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, )
+		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'QuestionId' => 1, 'UserId' => 2, 'Body' => 3, 'RelevancyUp' => 4, 'RelevancyDown' => 5, 'CreatedAt' => 6, ),
+		BasePeer::TYPE_COLNAME => array (AnswerPeer::ID => 0, AnswerPeer::QUESTION_ID => 1, AnswerPeer::USER_ID => 2, AnswerPeer::BODY => 3, AnswerPeer::RELEVANCY_UP => 4, AnswerPeer::RELEVANCY_DOWN => 5, AnswerPeer::CREATED_AT => 6, ),
+		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'question_id' => 1, 'user_id' => 2, 'body' => 3, 'relevancy_up' => 4, 'relevancy_down' => 5, 'created_at' => 6, ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, )
 	);
 
 	
@@ -112,6 +118,10 @@ abstract class BaseAnswerPeer {
 		$criteria->addSelectColumn(AnswerPeer::USER_ID);
 
 		$criteria->addSelectColumn(AnswerPeer::BODY);
+
+		$criteria->addSelectColumn(AnswerPeer::RELEVANCY_UP);
+
+		$criteria->addSelectColumn(AnswerPeer::RELEVANCY_DOWN);
 
 		$criteria->addSelectColumn(AnswerPeer::CREATED_AT);
 

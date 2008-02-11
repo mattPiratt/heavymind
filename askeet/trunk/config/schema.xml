@@ -9,6 +9,11 @@
 		</foreign-key>
 		<column name="title" type="longvarchar" />
 		<column name="body" type="longvarchar" />
+		<column name="interested_users" type="integer" default="0" />
+		<column name="stripped_title" type="varchar" size="255" />
+		<unique name="unique_stripped_title">
+		  <unique-column name="stripped_title" />
+		</unique>
 		<column name="created_at" type="timestamp" />
 		<column name="updated_at" type="timestamp" />
 	</table>
@@ -25,6 +30,8 @@
 			<reference local="user_id" foreign="id" />
 		</foreign-key>
 		<column name="body" type="longvarchar" />
+		<column name="relevancy_up" type="integer" default="0" />
+		<column name="relevancy_down" type="integer" default="0" />
 		<column name="created_at" type="timestamp" />
 	</table>
 
