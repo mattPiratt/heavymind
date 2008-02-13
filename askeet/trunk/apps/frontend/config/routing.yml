@@ -2,6 +2,12 @@
 question:
   url:   /question/:stripped_title
   param: { module: question, action: show }
+popular_questions: 
+  url:   /index/:page 
+  param: { module: question, action: list }
+login:
+  url:   /login 
+  param: { module: user, action: login } 
 homepage:
   url:   /
   param: { module: question, action: list }

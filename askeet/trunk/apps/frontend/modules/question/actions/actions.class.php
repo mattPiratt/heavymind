@@ -14,17 +14,17 @@
  */
 class questionActions extends sfActions
 {
-	public function executeList()
+	public function executeList ()
 	{
-		$this->questions = QuestionPeer::doSelect(new Criteria());
+	  $this->question_pager = QuestionPeer::getHomepagePager(
+	  	$this->getRequestParameter('page', 1) );
 	}
 
 	public function executeShow()
 	{
-		$c = new Criteria();
-		$c->add(QuestionPeer::STRIPPED_TITLE, $this->getRequestParameter('stripped_title'));
-		$this->question = QuestionPeer::doSelectOne($c);
-		$this->forward404Unless($this->question);
+	  $this->question = QuestionPeer::getQuestionFromTitle($this->getRequestParameter('stripped_title'));
+	 
+	  $this->forward404Unless($this->question);
 	}
 
 }
