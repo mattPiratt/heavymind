@@ -141,3 +141,9 @@ div#footer
   width: 780px;
   background-color: #bbb;
 }
+
+.form_error
+{
+  padding-left: 85px;
+  color: #d8732f;
+}

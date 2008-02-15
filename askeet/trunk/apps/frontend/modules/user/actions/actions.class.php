@@ -10,49 +10,32 @@
  */
 class userActions extends sfActions {
 
-public function executeLogin()
-{
-  if ($this->getRequest()->getMethod() != sfRequest::POST)
-  {
-    // display the form
-    $this->getRequest()->setAttribute('referer', $this->getRequest()->getReferer());
-  }
-  else
-  {
-    // handle the form submission
-    $nickname = $this->getRequestParameter('nickname');
- 
-    $c = new Criteria();
-    $c->add(UserPeer::NICKNAME, $nickname);
-    $user = UserPeer::doSelectOne($c);
- 
-    // nickname exists?
-    if ($user)
-    {
-      // password is OK?
-      if (true)
-      {
-        $this->getUser()->setAuthenticated(true);
-        $this->getUser()->addCredential('subscriber');
- 
-        $this->getUser()->setAttribute('subscriber_id', $user->getId(), 'subscriber');
-        $this->getUser()->setAttribute('nickname', $user->getNickname(), 'subscriber');
- 
-        // redirect to last page
-        return $this->redirect($this->getRequestParameter('referer', '@homepage'));
-      }
-    }
-  }
-}
-
-public function executeLogout()
-{
-  $this->getUser()->setAuthenticated(false);
-  $this->getUser()->clearCredentials();
- 
-  $this->getUser()->getAttributeHolder()->removeNamespace('subscriber');
- 
-  $this->redirect('@homepage');
-}
+	public function executeLogin()
+	{
+	  if ($this->getRequest()->getMethod() != sfRequest::POST)
+	  {
+	    // display the form
+	    $this->getRequest()->getParameterHolder()->set('referer', $this->getRequest()->getReferer());
+	 
+	    return sfView::SUCCESS;
+	  }
+	  else
+	  {
+	    // handle the form submission
+	    // redirect to last page
+	    return $this->redirect($this->getRequestParameter('referer', '@homepage'));
+	  }
+	}
+	
+	public function executeLogout()
+	{
+		$this->getUser()->signOut();
+		$this->redirect('@homepage');
+	}
+	
+	public function handleErrorLogin()
+	{
+	  return sfView::SUCCESS;
+	}
 
 }

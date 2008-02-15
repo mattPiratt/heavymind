@@ -17,7 +17,7 @@
       <li><?php echo link_to('about', '@homepage') ?></li>
 	<?php if ($sf_user->isAuthenticated()): ?>
 	  <li><?php echo link_to('sign out', 'user/logout') ?></li>
-	  <li><?php echo link_to($sf_user->getAttribute('nickname', '', 'subscriber').' profile', 'user/profile') ?></li>
+	  <li><?php echo link_to($sf_user->getNickname().' profile', 'user/profile') ?></li>
 	<?php else: ?>
 	  <li><?php echo link_to('sign in/register', 'user/login') ?></li>
 	<?php endif ?>
