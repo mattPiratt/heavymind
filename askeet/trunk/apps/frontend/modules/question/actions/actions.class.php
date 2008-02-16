@@ -14,10 +14,14 @@
  */
 class questionActions extends sfActions
 {
+	public function executeIndex () {
+		$this->forward('question', 'list');
+	}
+
 	public function executeList ()
 	{
-	  $this->question_pager = QuestionPeer::getHomepagePager(
-	  	$this->getRequestParameter('page', 1) );
+		$this->question_pager = QuestionPeer::getHomepagePager(
+			$this->getRequestParameter('page', 1) );
 	}
 
 	public function executeShow()
@@ -25,6 +29,11 @@ class questionActions extends sfActions
 	  $this->question = QuestionPeer::getQuestionFromTitle($this->getRequestParameter('stripped_title'));
 	 
 	  $this->forward404Unless($this->question);
+	}
+
+	public function executeRecent()
+	{
+	  $this->question_pager = QuestionPeer::getRecentPager($this->getRequestParameter('page', 1));
 	}
 
 }

@@ -32,7 +32,7 @@
     </div>
  
     <div id="content_bar">
-      <!-- Nothing for the moment -->
+      <?php include_component_slot('sidebar') ?>
       <div class="verticalalign"></div>
     </div>
   </div>

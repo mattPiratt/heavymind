@@ -3,10 +3,10 @@ default:
     content-type: text/html
 
   metas:
-    title:        symfony project
+    title:        askeet! ask questions, find answers
     robots:       index, follow
-    description:  symfony project
-    keywords:     symfony, project
+    description:  askeet!, a symfony project built in 24 hours
+    keywords:     symfony, project, askeet, php5, question, answer
     language:     en
 
   stylesheets:    [main, layout]
@@ -15,3 +15,6 @@ default:
 
   has_layout:     on
   layout:         layout
+
+  components:
+    sidebar:      [sidebar, default]
