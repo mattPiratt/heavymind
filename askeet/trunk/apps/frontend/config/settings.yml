@@ -20,7 +20,12 @@ test:
     no_script_name:         off
     etag:                   off
 
-#all:
+all:
+  .actions:
+    login_module:           user
+    login_action:           login
+
+
 #  .actions:
 #    default_module:         default   # Default module and action to be called when
 #    default_action:         index     # A routing rule doesn't set it

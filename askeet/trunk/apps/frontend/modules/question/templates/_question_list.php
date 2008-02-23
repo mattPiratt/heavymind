@@ -10,6 +10,7 @@
   <div class="question_body">
     <?php echo truncate_text(strip_tags($question->getHtmlBody()), 200) ?>
   </div>
+  <div style="clear: both"></div>
 <?php endforeach ?>
 
 <div id="question_pager">

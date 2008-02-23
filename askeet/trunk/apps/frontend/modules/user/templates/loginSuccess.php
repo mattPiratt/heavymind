@@ -6,7 +6,7 @@
   <div class="form-row">
     <?php echo form_error('nickname') ?>
     <label for="nickname">nickname:</label>
-    <?php echo input_tag('nickname', $params->get('nickname')) ?>
+    <?php echo input_tag('nickname', $sf_params->get('nickname')) ?>
   </div>
   
   <div class="form-row">
@@ -17,7 +17,7 @@
 
   </fieldset>
 
-  <?php echo input_hidden_tag('referer', $request->getAttribute('referer')) ?>
+  <?php echo input_hidden_tag('referer', $sf_request->getAttribute('referer')) ?>
   <?php echo submit_tag('sign in') ?>
 
 </form>

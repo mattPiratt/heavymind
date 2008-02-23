@@ -1,7 +1,7 @@
 # question
 question:
-  url:   /question/:stripped_title
-  param: { module: question, action: show }
+  url:   /question/:stripped_title/page/:page
+  param: { module: question, action: show, page: 1 }
 
 popular_questions:
   url:   /index/:page
