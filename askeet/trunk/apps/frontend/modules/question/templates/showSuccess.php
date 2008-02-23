@@ -7,14 +7,14 @@
 <h2><?php echo $question->getTitle() ?></h2>
 
 <div class="question_body">
-  <?php echo $question->getBody() ?>
+  <?php echo $question->getHtmlBody() ?>
 </div>
 
 <div id="answers">
 <?php foreach ($question->getAnswers() as $answer): ?>
   <div class="answer">
     <?php echo $answer->getRelevancyUpPercent() ?>% UP <?php echo $answer->getRelevancyDownPercent() ?> % DOWN
-    posted by <?php echo $answer->getUser() ?> 
+    posted by <?php echo link_to($question->getUser(), 'user/show?nickname='.$question->getUser()->getNickname()) ?> 
     on <?php echo format_date($answer->getCreatedAt(), 'p') ?>
     <div>
       <?php echo $answer->getBody() ?>

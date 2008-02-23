@@ -16,6 +16,7 @@ CREATE TABLE `ask_question`
 	`user_id` INTEGER,
 	`title` TEXT,
 	`body` TEXT,
+	`html_body` TEXT,
 	`interested_users` INTEGER default 0,
 	`stripped_title` VARCHAR(255),
 	`created_at` DATETIME,

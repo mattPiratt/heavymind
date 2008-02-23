@@ -13,7 +13,7 @@ abstract class BaseQuestionPeer {
 	const CLASS_DEFAULT = 'lib.model.Question';
 
 	
-	const NUM_COLUMNS = 8;
+	const NUM_COLUMNS = 9;
 
 	
 	const NUM_LAZY_LOAD_COLUMNS = 0;
@@ -30,6 +30,9 @@ abstract class BaseQuestionPeer {
 
 	
 	const BODY = 'ask_question.BODY';
+
+	
+	const HTML_BODY = 'ask_question.HTML_BODY';
 
 	
 	const INTERESTED_USERS = 'ask_question.INTERESTED_USERS';
@@ -49,18 +52,18 @@ abstract class BaseQuestionPeer {
 
 	
 	private static $fieldNames = array (
-		BasePeer::TYPE_PHPNAME => array ('Id', 'UserId', 'Title', 'Body', 'InterestedUsers', 'StrippedTitle', 'CreatedAt', 'UpdatedAt', ),
-		BasePeer::TYPE_COLNAME => array (QuestionPeer::ID, QuestionPeer::USER_ID, QuestionPeer::TITLE, QuestionPeer::BODY, QuestionPeer::INTERESTED_USERS, QuestionPeer::STRIPPED_TITLE, QuestionPeer::CREATED_AT, QuestionPeer::UPDATED_AT, ),
-		BasePeer::TYPE_FIELDNAME => array ('id', 'user_id', 'title', 'body', 'interested_users', 'stripped_title', 'created_at', 'updated_at', ),
-		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, )
+		BasePeer::TYPE_PHPNAME => array ('Id', 'UserId', 'Title', 'Body', 'HtmlBody', 'InterestedUsers', 'StrippedTitle', 'CreatedAt', 'UpdatedAt', ),
+		BasePeer::TYPE_COLNAME => array (QuestionPeer::ID, QuestionPeer::USER_ID, QuestionPeer::TITLE, QuestionPeer::BODY, QuestionPeer::HTML_BODY, QuestionPeer::INTERESTED_USERS, QuestionPeer::STRIPPED_TITLE, QuestionPeer::CREATED_AT, QuestionPeer::UPDATED_AT, ),
+		BasePeer::TYPE_FIELDNAME => array ('id', 'user_id', 'title', 'body', 'html_body', 'interested_users', 'stripped_title', 'created_at', 'updated_at', ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, )
 	);
 
 	
 	private static $fieldKeys = array (
-		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'UserId' => 1, 'Title' => 2, 'Body' => 3, 'InterestedUsers' => 4, 'StrippedTitle' => 5, 'CreatedAt' => 6, 'UpdatedAt' => 7, ),
-		BasePeer::TYPE_COLNAME => array (QuestionPeer::ID => 0, QuestionPeer::USER_ID => 1, QuestionPeer::TITLE => 2, QuestionPeer::BODY => 3, QuestionPeer::INTERESTED_USERS => 4, QuestionPeer::STRIPPED_TITLE => 5, QuestionPeer::CREATED_AT => 6, QuestionPeer::UPDATED_AT => 7, ),
-		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'user_id' => 1, 'title' => 2, 'body' => 3, 'interested_users' => 4, 'stripped_title' => 5, 'created_at' => 6, 'updated_at' => 7, ),
-		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, )
+		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'UserId' => 1, 'Title' => 2, 'Body' => 3, 'HtmlBody' => 4, 'InterestedUsers' => 5, 'StrippedTitle' => 6, 'CreatedAt' => 7, 'UpdatedAt' => 8, ),
+		BasePeer::TYPE_COLNAME => array (QuestionPeer::ID => 0, QuestionPeer::USER_ID => 1, QuestionPeer::TITLE => 2, QuestionPeer::BODY => 3, QuestionPeer::HTML_BODY => 4, QuestionPeer::INTERESTED_USERS => 5, QuestionPeer::STRIPPED_TITLE => 6, QuestionPeer::CREATED_AT => 7, QuestionPeer::UPDATED_AT => 8, ),
+		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'user_id' => 1, 'title' => 2, 'body' => 3, 'html_body' => 4, 'interested_users' => 5, 'stripped_title' => 6, 'created_at' => 7, 'updated_at' => 8, ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, )
 	);
 
 	
@@ -121,6 +124,8 @@ abstract class BaseQuestionPeer {
 		$criteria->addSelectColumn(QuestionPeer::TITLE);
 
 		$criteria->addSelectColumn(QuestionPeer::BODY);
+
+		$criteria->addSelectColumn(QuestionPeer::HTML_BODY);
 
 		$criteria->addSelectColumn(QuestionPeer::INTERESTED_USERS);
 

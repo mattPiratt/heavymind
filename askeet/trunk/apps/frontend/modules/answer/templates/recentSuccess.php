@@ -5,9 +5,10 @@
 <div id="answers">
 <?php foreach ($answer_pager->getResults() as $answer): ?>
   <div class="answer">
+  	<br/><br/>
     <h2><?php echo link_to($answer->getQuestion()->getTitle(), 'question/show?stripped_title='.$answer->getQuestion()->getStrippedTitle()) ?></h2>
     <?php echo count($answer->getRelevancys()) ?> points
-    posted by <?php echo link_to($answer->getUser(), 'user/show?id='.$answer->getUser()->getId()) ?> 
+    posted by <?php echo link_to($answer->getUser(), 'user/show?nickname='.$answer->getUser()->getNickname()) ?> 
     on <?php echo format_date($answer->getCreatedAt(), 'p') ?>
     <div>
       <?php echo $answer->getBody() ?>

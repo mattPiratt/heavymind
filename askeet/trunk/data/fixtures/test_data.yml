@@ -19,14 +19,15 @@ User:
     email:      fz@example.com
 
 Question:
+Question:
   q1:
     title: What shall I do tonight with my girlfriend?
     user_id: fabien
     body:  |
-      We shall meet in front of the Dunkin'Donuts before dinner, 
+      We shall meet in front of the __Dunkin'Donuts__ before dinner, 
       and I haven't the slightest idea of what I can do with her. 
-      She's not interested in programming, space opera movies nor insects.
-      She's kinda cute, so I really need to find something 
+      She's not interested in _programming_, _space opera movies_ nor _insects_.
+      She's kinda cute, so I __really__ need to find something 
       that will keep her to my side for another evening.
 
   q2:
@@ -34,9 +35,9 @@ Question:
     user_id: anonymous
     body:  |
       My stepmother has everything a stepmother is usually offered
-      (watch, vacuum cleaner, earrings, del.icio.us account). 
+      (watch, vacuum cleaner, earrings, [del.icio.us](http://del.icio.us) account). 
       Her birthday comes next week, I am broke, and I know that 
-      if I don't offer her something sweet, my girlfriend 
+      if I don't offer her something *sweet*, my girlfriend 
       won't look at me in the eyes for another month.
 
   q3:
@@ -47,10 +48,8 @@ Question:
       about my class and mates and pets and favorite movies.
 
 Interest:
-  i1: { user_id: fabien, question_id: q1 }
   i2: { user_id: francois, question_id: q1 }
   i3: { user_id: francois, question_id: q2 }
-  i4: { user_id: fabien, question_id: q2 }
   
 Answer:
   a1_q1:

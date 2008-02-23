@@ -9,6 +9,7 @@
 		</foreign-key>
 		<column name="title" type="longvarchar" />
 		<column name="body" type="longvarchar" />
+		<column name="html_body" type="longvarchar" />
 		<column name="interested_users" type="integer" default="0" />
 		<column name="stripped_title" type="varchar" size="255" />
 		<unique name="unique_stripped_title">

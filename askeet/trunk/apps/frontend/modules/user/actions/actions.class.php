@@ -40,7 +40,7 @@ class userActions extends sfActions {
 
 	public function executeShow()
 	{
-	  $this->subscriber = UserPeer::retrieveByPk($this->getRequestParameter('id', $this->getUser()->getSubscriberId()));
+	  $this->subscriber = UserPeer::retrieveByNickname($this->getRequestParameter('nickname'));
 	  $this->forward404Unless($this->subscriber);
 	 
 	  $this->interests = $this->subscriber->getInterestsJoinQuestion();
@@ -48,4 +48,16 @@ class userActions extends sfActions {
 	  $this->questions = $this->subscriber->getQuestions();
 	}
 
+	public function executeInterested()
+	{
+	  $this->question = QuestionPeer::retrieveByPk($this->getRequestParameter('id'));
+	  $this->forward404Unless($this->question);
+	 
+	  $user = $this->getUser()->getSubscriber();
+	 
+	  $interest = new Interest();
+	  $interest->setQuestion($this->question);
+	  $interest->setUser($user);
+	  $interest->save();
+	}
 }

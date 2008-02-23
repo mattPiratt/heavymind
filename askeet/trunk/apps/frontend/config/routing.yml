@@ -1,20 +1,42 @@
-# default rules
+# question
 question:
   url:   /question/:stripped_title
   param: { module: question, action: show }
-popular_questions: 
-  url:   /index/:page 
-  param: { module: question, action: list }
+
+popular_questions:
+  url:   /index/:page
+  param: { module: question, action: list, page: 1 }
+
+recent_questions:
+  url:   /recent/:page
+  param: { module: question, action: recent, page: 1 }
+
+add_question:
+  url:   /add_question
+  param: { module: question, action: add }
+
+# answer
+recent_answers:
+  url:   /recent/answers/:page
+  param: { module: answer, action: recent, page: 1 }
+
+# user
 login:
-  url:   /login 
-  param: { module: user, action: login } 
+  url:   /login
+  param: { module: user, action: login }
+
+logout:
+  url:   /logout
+  param: { module: user, action: logout }
+
+user_profile:
+  url:   /user/:nickname
+  param: { module: user, action: show }
+
+# default rules
 homepage:
   url:   /
   param: { module: question, action: list }
-recent_questions:
-  url:   /recent/:page
-  param: {module: question, action: recent, page: 0 }
-
 
 default_symfony:
   url:   /symfony/:action/*
