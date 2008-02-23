@@ -12,13 +12,12 @@ User:
     email:      fp@example.com
 
   francois:
-    nickname:   francoisz
+    nickname:   francois
     first_name: François
     last_name:  Zaninotto
     password:   adventcal
     email:      fz@example.com
 
-Question:
 Question:
   q1:
     title: What shall I do tonight with my girlfriend?
@@ -62,7 +61,7 @@ Answer:
     question_id: q1
     user_id:     fabien
     body:        |
-      Don't bring her to a donuts shop. Ever. Girls don't like to be
+      Don't bring her to a doghnuts shop. Ever. Girls don't like to be
       seen eating with their fingers - although it's nice. 
 
   a3_q2:

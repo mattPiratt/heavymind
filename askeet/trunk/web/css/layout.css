@@ -136,14 +136,3 @@ and 5.5, hence the child selector hack */
   position: relative;
   z-index: 1000;
 }
-
-div#indicator
-{
-  position: absolute;
-  width: 100px;
-  height: 40px;
-  left: 10px;
-  top: 10px;
-  z-index: 900;
-  background: url(/images/indicator.gif) no-repeat 0 0;
-}

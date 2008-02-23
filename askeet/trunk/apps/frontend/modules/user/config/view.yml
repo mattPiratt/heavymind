@@ -1,2 +1,5 @@
+voteSuccess:
+  has_layout: off
+
 interestedSuccess:
   has_layout: off

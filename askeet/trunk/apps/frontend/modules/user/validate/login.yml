@@ -3,12 +3,12 @@ methods:
 
 names:
   nickname:
-    required:     true
-    required_msg: your nickname is required
-    validators:   [ nicknameValidator, userValidator ]
+    required:      Yes
+    required_msg:  your nickname is required
+    validators:    nicknameValidator, userValidator
 
   password:
-    required:     true
+    required:     Yes
     required_msg: your password is required
 
 nicknameValidator:

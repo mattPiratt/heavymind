@@ -1,18 +1,16 @@
 <?php
+
 function pager_navigation($pager, $uri)
 {
   $navigation = '';
-
-  if ($pager->haveToPaginate())
-  {
-    $uri .= (preg_match('/\?/', $uri) ? '&' : '?').'page=';
  
+  if ($pager->haveToPaginate())
+  {  
+    $uri .= (preg_match('/\?/', $uri) ? '&' : '?').'page=';
+
     // First and previous page
-    if ($pager->getPage() != 1)
-    {
-      $navigation .= link_to(image_tag('first.gif', 'align=absmiddle'), $uri.'1');
-      $navigation .= link_to(image_tag('previous.gif', 'align=absmiddle'), $uri.$pager->getPreviousPage()).'&nbsp;';
-    }
+    $navigation .= link_to('&laquo;', $uri.'1');
+    $navigation .= link_to('&lt;', $uri.$pager->getPreviousPage());
 
     // Pages one by one
     $links = array();
@@ -20,17 +18,14 @@ function pager_navigation($pager, $uri)
     {
       $links[] = link_to_unless($page == $pager->getPage(), $page, $uri.$page);
     }
-    $navigation .= join('&nbsp;&nbsp;', $links);
+    $navigation .= join(' - ', $links);
 
     // Next and last page
-    if ($pager->getPage() != $pager->getCurrentMaxLink())
-    {
-      $navigation .= '&nbsp;'.link_to(image_tag('next.gif', 'align=absmiddle'), $uri.$pager->getNextPage());
-      $navigation .= link_to(image_tag('last.gif', 'align=absmiddle'), $uri.$pager->getLastPage());
-    }
- 
+    $navigation .= link_to('&gt;', $uri.$pager->getNextPage());
+    $navigation .= link_to('&raquo;', $uri.$pager->getLastPage());
   }
- 
+
   return $navigation;
 }
+
 ?>

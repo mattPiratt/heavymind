@@ -1,22 +1,22 @@
-<?php use_helper('Date', 'Global') ?>
- 
+<?php use_helper('Date', 'Answer') ?>
+
 <h1>recent answers</h1>
- 
-<div id="answers">
-<?php foreach ($answer_pager->getResults() as $answer): ?>
-  <div class="answer">
-  	<br/><br/>
-    <h2><?php echo link_to($answer->getQuestion()->getTitle(), 'question/show?stripped_title='.$answer->getQuestion()->getStrippedTitle()) ?></h2>
-    <?php echo count($answer->getRelevancys()) ?> points
-    posted by <?php echo link_to($answer->getUser(), 'user/show?nickname='.$answer->getUser()->getNickname()) ?> 
-    on <?php echo format_date($answer->getCreatedAt(), 'p') ?>
-    <div>
-      <?php echo $answer->getBody() ?>
-    </div>
+
+<?php include_partial('list', array('answer_pager' => $answer_pager)) ?>
+
+<?php if ($answer_pager->haveToPaginate()): ?>
+  <div id="answers_pager">
+
+  <?php echo link_to('&laquo;', '@recent_answers?page=1') ?>
+  <?php echo link_to('&lt;', '@recent_answers?page='.$answer_pager->getPreviousPage()) ?>
+
+  <?php foreach ($answer_pager->getLinks() as $page): ?>
+    <?php echo ($page == $answer_pager->getPage()) ? $page : link_to($page, '@recent_answers?page='.$page) ?>
+    <?php echo ($page != $answer_pager->getCurrentMaxLink()) ? '-' : '' ?>
+  <?php endforeach ?>
+
+  <?php echo link_to('&gt;', '@recent_answers?page='.$answer_pager->getNextPage()) ?>
+  <?php echo link_to('&raquo;', '@recent_answers?page='.$answer_pager->getLastPage()) ?>
+
   </div>
-<?php endforeach ?>
-</div>        
- 
-<div id="question_pager">
-  <?php echo pager_navigation($answer_pager, 'answer/recent') ?>
-</div>
+<?php endif ?>

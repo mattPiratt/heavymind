@@ -15,14 +15,13 @@ CREATE TABLE `ask_question`
 	`id` INTEGER  NOT NULL AUTO_INCREMENT,
 	`user_id` INTEGER,
 	`title` TEXT,
+	`stripped_title` TEXT,
 	`body` TEXT,
 	`html_body` TEXT,
 	`interested_users` INTEGER default 0,
-	`stripped_title` VARCHAR(255),
 	`created_at` DATETIME,
 	`updated_at` DATETIME,
 	PRIMARY KEY (`id`),
-	UNIQUE KEY `unique_stripped_title` (`stripped_title`),
 	INDEX `ask_question_FI_1` (`user_id`),
 	CONSTRAINT `ask_question_FK_1`
 		FOREIGN KEY (`user_id`)
@@ -42,6 +41,7 @@ CREATE TABLE `ask_answer`
 	`question_id` INTEGER,
 	`user_id` INTEGER,
 	`body` TEXT,
+	`html_body` TEXT,
 	`relevancy_up` INTEGER default 0,
 	`relevancy_down` INTEGER default 0,
 	`created_at` DATETIME,

@@ -5,22 +5,47 @@ question:
 
 popular_questions:
   url:   /index/:page
-  param: { module: question, action: list, page: 1 }
+  param: { module: question, action: list }
 
 recent_questions:
-  url:   /recent/:page
-  param: { module: question, action: recent, page: 1 }
+  url:   /recent
+  param: { module: question, action: recent }
 
 add_question:
   url:   /add_question
   param: { module: question, action: add }
 
-# answer
+# answers
 recent_answers:
-  url:   /recent/answers/:page
-  param: { module: answer, action: recent, page: 1 }
+  url:   /recent/answers
+  param: { module: answer, action: recent }
+
+add_answer:
+  url:   /add_anwser
+  param: { module: answer, action: add }
+
+answers:
+  url:   /question/:stripped_title/page/:page
+  param: { module: question, action: show, page: 1 }
 
 # user
+user_interests:
+  url:   /question/:stripped_title/interests/:page
+  param: { module: user, action: listInterestedBy }
+
+user_profile:
+  url:   /user/:nickname
+  param: { module: user, action: show }
+
+current_user_profile:
+  url:   /user
+  param: { module: user, action: show }
+
+add_account:
+  url:   /add_user
+  param: { module: user, action: new }
+
+# login
 login:
   url:   /login
   param: { module: user, action: login }
@@ -28,10 +53,6 @@ login:
 logout:
   url:   /logout
   param: { module: user, action: logout }
-
-user_profile:
-  url:   /user/:nickname
-  param: { module: user, action: show }
 
 # default rules
 homepage:

@@ -6,21 +6,14 @@
  * @package    askeet
  * @subpackage answer
  * @author     Your name here
- * @version    SVN: $Id: actions.class.php 2692 2006-11-15 21:03:55Z fabien $
+ * @version    SVN: $Id: actions.class.php 18 2005-12-06 11:05:10Z fabien $
  */
 class answerActions extends sfActions
 {
-  /**
-   * Executes index action
-   *
-   */
-  public function executeIndex()
+  public function executeRecent()
   {
-    $this->forward('default', 'module');
+    $this->answer_pager = AnswerPeer::getRecentPager($this->getRequestParameter('page', 1));
   }
-
-	public function executeRecent()
-	{
-	  $this->answer_pager = AnswerPeer::getRecentPager($this->getRequestParameter('page', 1));
-	}
 }
+
+?>

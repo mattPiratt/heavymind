@@ -144,6 +144,16 @@ div#footer
 
 .form_error
 {
-  padding-left: 85px;
-  color: #d8732f;
+  color: #f00;
+}
+
+div#indicator
+{
+  position: absolute;
+  width: 100px;
+  height: 40px;
+  left: 10px;
+  top: 10px;
+  z-index: 900;
+  background: url(/images/indicator.gif) no-repeat 0 0;
 }

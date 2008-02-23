@@ -1,7 +1,7 @@
 <?php
- 
+
 use_helper('Javascript');
- 
+
 function link_to_user_interested($user, $question)
 {
   if ($user->isAuthenticated())
@@ -28,4 +28,5 @@ function link_to_user_interested($user, $question)
     return link_to_function('interested?', visual_effect('blind_down', 'login', array('duration' => 0.5)));
   }
 }
+
 ?>

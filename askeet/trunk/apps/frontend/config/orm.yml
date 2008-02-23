@@ -1,0 +1,6 @@
+all:
+  adapter:  mysql
+  host:     localhost
+  database: askeet
+  username: root
+  password: 

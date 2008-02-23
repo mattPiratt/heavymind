@@ -1,22 +1,32 @@
 <?php
 
+require_once 'model/om/BaseUser.php';
+
+
 /**
- * Subclass for representing a row from the 'ask_user' table.
+ * Skeleton subclass for representing a row from the 'ask_user' table.
  *
  * 
  *
- * @package lib.model
- */ 
-class User extends BaseUser {
+ * You should add additional methods to this class to meet the
+ * application requirements.  This class will only be generated as
+ * long as it does not already exist in the output directory.
+ *
+ * @package model
+ */	
+class User extends BaseUser
+{
+  public function __toString()
+  {
+    return $this->getFirstName().' '.$this->getLastName();
+  }
 
-	public function __toString() {
-		return $this->getFirstName().' '.$this->getLastName();
-	}
-
-	public function setPassword($password)
-	{
-	  $salt = md5(rand(100000, 999999).$this->getNickname().$this->getEmail());
-	  $this->setSalt($salt);
-	  $this->setSha1Password(sha1($salt.$password));
-	}
+  public function setPassword($password)
+  {
+    $salt = md5(rand(100000, 999999).$this->getNickname().$this->getEmail());
+    $this->setSalt($salt);
+    $this->setSha1Password(sha1($salt.$password));
+  }
 }
+
+?>

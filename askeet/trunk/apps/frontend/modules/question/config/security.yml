@@ -1,6 +1,6 @@
-add:
-    is_secure:   on
-    credentials: subscriber
+edit:
+  is_secure:   on
+  credentials: subscriber
 
 all:
-    is_secure:   off
+  is_secure:   off

@@ -1,3 +1,7 @@
+# default values
 all:
   pager:
     homepage_max: 2
+    answers_max:  1
+    users_max:    10
+

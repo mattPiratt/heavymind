@@ -25,6 +25,10 @@ abstract class BaseAnswer extends BaseObject  implements Persistent {
 
 
 	
+	protected $html_body;
+
+
+	
 	protected $relevancy_up = 0;
 
 
@@ -79,6 +83,13 @@ abstract class BaseAnswer extends BaseObject  implements Persistent {
 	{
 
 		return $this->body;
+	}
+
+	
+	public function getHtmlBody()
+	{
+
+		return $this->html_body;
 	}
 
 	
@@ -190,6 +201,22 @@ abstract class BaseAnswer extends BaseObject  implements Persistent {
 
 	} 
 	
+	public function setHtmlBody($v)
+	{
+
+		
+		
+		if ($v !== null && !is_string($v)) {
+			$v = (string) $v; 
+		}
+
+		if ($this->html_body !== $v) {
+			$this->html_body = $v;
+			$this->modifiedColumns[] = AnswerPeer::HTML_BODY;
+		}
+
+	} 
+	
 	public function setRelevancyUp($v)
 	{
 
@@ -251,17 +278,19 @@ abstract class BaseAnswer extends BaseObject  implements Persistent {
 
 			$this->body = $rs->getString($startcol + 3);
 
-			$this->relevancy_up = $rs->getInt($startcol + 4);
+			$this->html_body = $rs->getString($startcol + 4);
 
-			$this->relevancy_down = $rs->getInt($startcol + 5);
+			$this->relevancy_up = $rs->getInt($startcol + 5);
 
-			$this->created_at = $rs->getTimestamp($startcol + 6, null);
+			$this->relevancy_down = $rs->getInt($startcol + 6);
+
+			$this->created_at = $rs->getTimestamp($startcol + 7, null);
 
 			$this->resetModified();
 
 			$this->setNew(false);
 
-						return $startcol + 7; 
+						return $startcol + 8; 
 		} catch (Exception $e) {
 			throw new PropelException("Error populating Answer object", $e);
 		}
@@ -452,12 +481,15 @@ abstract class BaseAnswer extends BaseObject  implements Persistent {
 				return $this->getBody();
 				break;
 			case 4:
-				return $this->getRelevancyUp();
+				return $this->getHtmlBody();
 				break;
 			case 5:
-				return $this->getRelevancyDown();
+				return $this->getRelevancyUp();
 				break;
 			case 6:
+				return $this->getRelevancyDown();
+				break;
+			case 7:
 				return $this->getCreatedAt();
 				break;
 			default:
@@ -474,9 +506,10 @@ abstract class BaseAnswer extends BaseObject  implements Persistent {
 			$keys[1] => $this->getQuestionId(),
 			$keys[2] => $this->getUserId(),
 			$keys[3] => $this->getBody(),
-			$keys[4] => $this->getRelevancyUp(),
-			$keys[5] => $this->getRelevancyDown(),
-			$keys[6] => $this->getCreatedAt(),
+			$keys[4] => $this->getHtmlBody(),
+			$keys[5] => $this->getRelevancyUp(),
+			$keys[6] => $this->getRelevancyDown(),
+			$keys[7] => $this->getCreatedAt(),
 		);
 		return $result;
 	}
@@ -505,12 +538,15 @@ abstract class BaseAnswer extends BaseObject  implements Persistent {
 				$this->setBody($value);
 				break;
 			case 4:
-				$this->setRelevancyUp($value);
+				$this->setHtmlBody($value);
 				break;
 			case 5:
-				$this->setRelevancyDown($value);
+				$this->setRelevancyUp($value);
 				break;
 			case 6:
+				$this->setRelevancyDown($value);
+				break;
+			case 7:
 				$this->setCreatedAt($value);
 				break;
 		} 	}
@@ -524,9 +560,10 @@ abstract class BaseAnswer extends BaseObject  implements Persistent {
 		if (array_key_exists($keys[1], $arr)) $this->setQuestionId($arr[$keys[1]]);
 		if (array_key_exists($keys[2], $arr)) $this->setUserId($arr[$keys[2]]);
 		if (array_key_exists($keys[3], $arr)) $this->setBody($arr[$keys[3]]);
-		if (array_key_exists($keys[4], $arr)) $this->setRelevancyUp($arr[$keys[4]]);
-		if (array_key_exists($keys[5], $arr)) $this->setRelevancyDown($arr[$keys[5]]);
-		if (array_key_exists($keys[6], $arr)) $this->setCreatedAt($arr[$keys[6]]);
+		if (array_key_exists($keys[4], $arr)) $this->setHtmlBody($arr[$keys[4]]);
+		if (array_key_exists($keys[5], $arr)) $this->setRelevancyUp($arr[$keys[5]]);
+		if (array_key_exists($keys[6], $arr)) $this->setRelevancyDown($arr[$keys[6]]);
+		if (array_key_exists($keys[7], $arr)) $this->setCreatedAt($arr[$keys[7]]);
 	}
 
 	
@@ -538,6 +575,7 @@ abstract class BaseAnswer extends BaseObject  implements Persistent {
 		if ($this->isColumnModified(AnswerPeer::QUESTION_ID)) $criteria->add(AnswerPeer::QUESTION_ID, $this->question_id);
 		if ($this->isColumnModified(AnswerPeer::USER_ID)) $criteria->add(AnswerPeer::USER_ID, $this->user_id);
 		if ($this->isColumnModified(AnswerPeer::BODY)) $criteria->add(AnswerPeer::BODY, $this->body);
+		if ($this->isColumnModified(AnswerPeer::HTML_BODY)) $criteria->add(AnswerPeer::HTML_BODY, $this->html_body);
 		if ($this->isColumnModified(AnswerPeer::RELEVANCY_UP)) $criteria->add(AnswerPeer::RELEVANCY_UP, $this->relevancy_up);
 		if ($this->isColumnModified(AnswerPeer::RELEVANCY_DOWN)) $criteria->add(AnswerPeer::RELEVANCY_DOWN, $this->relevancy_down);
 		if ($this->isColumnModified(AnswerPeer::CREATED_AT)) $criteria->add(AnswerPeer::CREATED_AT, $this->created_at);
@@ -576,6 +614,8 @@ abstract class BaseAnswer extends BaseObject  implements Persistent {
 		$copyObj->setUserId($this->user_id);
 
 		$copyObj->setBody($this->body);
+
+		$copyObj->setHtmlBody($this->html_body);
 
 		$copyObj->setRelevancyUp($this->relevancy_up);
 
