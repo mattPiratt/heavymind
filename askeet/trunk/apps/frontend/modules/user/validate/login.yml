@@ -14,8 +14,8 @@ names:
 nicknameValidator:
     class:        sfStringValidator
     param:
-      min:        5
-      min_error:  nickname must be 5 or more characters
+      min:        4
+      min_error:  nickname must be 4 or more characters
 
 userValidator:
     class:         myLoginValidator

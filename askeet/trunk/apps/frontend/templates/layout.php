@@ -43,6 +43,7 @@
       <?php echo input_hidden_tag('referer', $sf_params->get('referer') ? $sf_params->get('referer') : $sf_request->getUri()) ?>
       <?php echo submit_tag('login') ?>
     </form>
+    <?php echo link_to('Forgot your password?', '@user_require_password') ?>
   </div>
 
   <div id="content">

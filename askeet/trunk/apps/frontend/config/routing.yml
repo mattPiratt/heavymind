@@ -45,6 +45,11 @@ add_account:
   url:   /add_user
   param: { module: user, action: new }
 
+user_require_password:
+  url:   /password_request
+  param: { module: user, action: passwordRequest }
+
+
 # login
 login:
   url:   /login

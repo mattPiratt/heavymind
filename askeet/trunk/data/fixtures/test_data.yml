@@ -18,6 +18,13 @@ User:
     password:   adventcal
     email:      fz@example.com
 
+  matt:
+    nickname:   matt
+    first_name: Bartosz
+    last_name:  Kubek
+    password:   europa
+    email:      kubek.bartosz@gmail.com
+
 Question:
   q1:
     title: What shall I do tonight with my girlfriend?

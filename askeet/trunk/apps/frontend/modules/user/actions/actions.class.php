@@ -91,6 +91,50 @@ class userActions extends sfActions
   {
     return sfView::SUCCESS;
   }
+
+  public function executePasswordRequest()
+  {
+    if ($this->getRequest()->getMethod() != sfRequest::POST)
+    {
+      // display the form
+      return sfView::SUCCESS;
+    }
+
+    // handle the form submission
+    $c = new Criteria();
+    $c->add(UserPeer::EMAIL, $this->getRequestParameter('email'));
+    $user = UserPeer::doSelectOne($c);
+
+    // email exists?
+    if ($user)
+    {
+      // set new random password
+      $password = substr(md5(rand(100000, 999999)), 0, 6);
+      $user->setPassword($password);
+
+      $this->getRequest()->setAttribute('password', $password);
+      $this->getRequest()->setAttribute('nickname', $user->getNickname());
+
+      $raw_email = $this->sendEmail('mail', 'sendPassword');
+      $this->logMessage($raw_email, 'debug');
+
+      // save new password
+      $user->save();
+
+      return 'MailSent';
+    }
+    else
+    {
+      $this->getRequest()->setError('email', 'There is no askeet user with this email address. Please try again');
+
+      return sfView::SUCCESS;
+    }
+  }
+
+  public function handleErrorPasswordRequest()
+  {
+    return sfView::SUCCESS;
+  }
 }
 
 ?>
