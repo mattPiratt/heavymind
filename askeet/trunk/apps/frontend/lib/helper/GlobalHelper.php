@@ -28,4 +28,8 @@ function pager_navigation($pager, $uri)
   return $navigation;
 }
 
+function link_to_feed($name, $uri)
+{
+  return link_to(image_tag('rss.gif', array('alt' => $name, 'title' => $name, 'align' => 'absmiddle')), $uri);
+}
 ?>

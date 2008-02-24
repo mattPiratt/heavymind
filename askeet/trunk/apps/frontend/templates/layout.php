@@ -11,7 +11,7 @@
 <?php echo include_javascripts() ?>
 
 <link rel="shortcut icon" href="/favicon.ico">
-
+<?php echo auto_discovery_link_tag('rss', '@feed_popular_questions') ?>
 </head>
 <body>
 

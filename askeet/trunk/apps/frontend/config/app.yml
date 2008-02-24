@@ -4,4 +4,5 @@ all:
     homepage_max: 2
     answers_max:  1
     users_max:    10
-
+  feed:
+    max: 10

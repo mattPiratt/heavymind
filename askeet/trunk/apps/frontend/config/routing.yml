@@ -5,7 +5,7 @@ question:
 
 popular_questions:
   url:   /index/:page
-  param: { module: question, action: list }
+  param: { module: question, action: list, page: 1 }
 
 recent_questions:
   url:   /recent
@@ -53,6 +53,13 @@ login:
 logout:
   url:   /logout
   param: { module: user, action: logout }
+
+
+# feeds
+feed_popular_questions:
+  url:   /feed/popular
+  param: { module: feed, action: popular }
+
 
 # default rules
 homepage:
