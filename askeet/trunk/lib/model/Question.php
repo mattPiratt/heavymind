@@ -6,14 +6,14 @@ require_once 'model/om/BaseQuestion.php';
 /**
  * Skeleton subclass for representing a row from the 'ask_question' table.
  *
- * 
+ *
  *
  * You should add additional methods to this class to meet the
  * application requirements.  This class will only be generated as
  * long as it does not already exist in the output directory.
  *
  * @package model
- */	
+ */
 class Question extends BaseQuestion
 {
   public function setTitle($v)
@@ -42,7 +42,7 @@ class Question extends BaseQuestion
   }
 
   public function getInterestedUsersPager($page)
-  {   
+  {
     $c = new Criteria();
     $c->addJoin(UserPeer::ID, InterestPeer::USER_ID, Criteria::LEFT_JOIN);
     $c->add(InterestPeer::QUESTION_ID, $this->getId());
@@ -54,6 +54,60 @@ class Question extends BaseQuestion
 
     return $pager;
   }
+
+  public function getTags()
+  {
+    $c = new Criteria();
+    $c->clearSelectColumns();
+    $c->addSelectColumn(QuestionTagPeer::NORMALIZED_TAG);
+    $c->add(QuestionTagPeer::QUESTION_ID, $this->getId());
+    $c->setDistinct();
+    $c->addAscendingOrderByColumn(QuestionTagPeer::NORMALIZED_TAG);
+
+    $tags = array();
+    $rs = QuestionTagPeer::doSelectRS($c);
+    while ($rs->next())
+    {
+      $tags[] = $rs->getString(1);
+    }
+
+    return $tags;
+  }
+
+  public function getPopularTags($max = 5)
+  {
+    $tags = array();
+
+    $con = Propel::getConnection();
+    $query = '
+    SELECT %s AS tag, COUNT(%s) AS count
+    FROM %s
+    WHERE %s = ?
+    GROUP BY %s
+    ORDER BY count DESC
+  ';
+
+    $query = sprintf($query,
+	    QuestionTagPeer::NORMALIZED_TAG,
+	    QuestionTagPeer::NORMALIZED_TAG,
+	    QuestionTagPeer::TABLE_NAME,
+	    QuestionTagPeer::QUESTION_ID,
+	    QuestionTagPeer::NORMALIZED_TAG
+    );
+
+    $stmt = $con->prepareStatement($query);
+    $stmt->setInt(1, $this->getId());
+    $stmt->setLimit($max);
+    $rs = $stmt->executeQuery();
+    while ($rs->next())
+    {
+      $tags[$rs->getString('tag')] = $rs->getInt('count');
+    }
+
+    return $tags;
+  }
+
+
 }
 
 ?>

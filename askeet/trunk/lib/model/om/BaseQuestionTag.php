@@ -1,7 +1,7 @@
 <?php
 
 
-abstract class BaseInterest extends BaseObject  implements Persistent {
+abstract class BaseQuestionTag extends BaseObject  implements Persistent {
 
 
 	
@@ -18,6 +18,14 @@ abstract class BaseInterest extends BaseObject  implements Persistent {
 
 	
 	protected $created_at;
+
+
+	
+	protected $tag;
+
+
+	
+	protected $normalized_tag;
 
 	
 	protected $aQuestion;
@@ -68,6 +76,20 @@ abstract class BaseInterest extends BaseObject  implements Persistent {
 	}
 
 	
+	public function getTag()
+	{
+
+		return $this->tag;
+	}
+
+	
+	public function getNormalizedTag()
+	{
+
+		return $this->normalized_tag;
+	}
+
+	
 	public function setQuestionId($v)
 	{
 
@@ -79,7 +101,7 @@ abstract class BaseInterest extends BaseObject  implements Persistent {
 
 		if ($this->question_id !== $v) {
 			$this->question_id = $v;
-			$this->modifiedColumns[] = InterestPeer::QUESTION_ID;
+			$this->modifiedColumns[] = QuestionTagPeer::QUESTION_ID;
 		}
 
 		if ($this->aQuestion !== null && $this->aQuestion->getId() !== $v) {
@@ -99,7 +121,7 @@ abstract class BaseInterest extends BaseObject  implements Persistent {
 
 		if ($this->user_id !== $v) {
 			$this->user_id = $v;
-			$this->modifiedColumns[] = InterestPeer::USER_ID;
+			$this->modifiedColumns[] = QuestionTagPeer::USER_ID;
 		}
 
 		if ($this->aUser !== null && $this->aUser->getId() !== $v) {
@@ -120,7 +142,39 @@ abstract class BaseInterest extends BaseObject  implements Persistent {
 		}
 		if ($this->created_at !== $ts) {
 			$this->created_at = $ts;
-			$this->modifiedColumns[] = InterestPeer::CREATED_AT;
+			$this->modifiedColumns[] = QuestionTagPeer::CREATED_AT;
+		}
+
+	} 
+	
+	public function setTag($v)
+	{
+
+		
+		
+		if ($v !== null && !is_string($v)) {
+			$v = (string) $v; 
+		}
+
+		if ($this->tag !== $v) {
+			$this->tag = $v;
+			$this->modifiedColumns[] = QuestionTagPeer::TAG;
+		}
+
+	} 
+	
+	public function setNormalizedTag($v)
+	{
+
+		
+		
+		if ($v !== null && !is_string($v)) {
+			$v = (string) $v; 
+		}
+
+		if ($this->normalized_tag !== $v) {
+			$this->normalized_tag = $v;
+			$this->modifiedColumns[] = QuestionTagPeer::NORMALIZED_TAG;
 		}
 
 	} 
@@ -135,13 +189,17 @@ abstract class BaseInterest extends BaseObject  implements Persistent {
 
 			$this->created_at = $rs->getTimestamp($startcol + 2, null);
 
+			$this->tag = $rs->getString($startcol + 3);
+
+			$this->normalized_tag = $rs->getString($startcol + 4);
+
 			$this->resetModified();
 
 			$this->setNew(false);
 
-						return $startcol + 3; 
+						return $startcol + 5; 
 		} catch (Exception $e) {
-			throw new PropelException("Error populating Interest object", $e);
+			throw new PropelException("Error populating QuestionTag object", $e);
 		}
 	}
 
@@ -153,12 +211,12 @@ abstract class BaseInterest extends BaseObject  implements Persistent {
 		}
 
 		if ($con === null) {
-			$con = Propel::getConnection(InterestPeer::DATABASE_NAME);
+			$con = Propel::getConnection(QuestionTagPeer::DATABASE_NAME);
 		}
 
 		try {
 			$con->begin();
-			InterestPeer::doDelete($this, $con);
+			QuestionTagPeer::doDelete($this, $con);
 			$this->setDeleted(true);
 			$con->commit();
 		} catch (PropelException $e) {
@@ -170,7 +228,7 @@ abstract class BaseInterest extends BaseObject  implements Persistent {
 	
 	public function save($con = null)
 	{
-    if ($this->isNew() && !$this->isColumnModified(InterestPeer::CREATED_AT))
+    if ($this->isNew() && !$this->isColumnModified(QuestionTagPeer::CREATED_AT))
     {
       $this->setCreatedAt(time());
     }
@@ -180,7 +238,7 @@ abstract class BaseInterest extends BaseObject  implements Persistent {
 		}
 
 		if ($con === null) {
-			$con = Propel::getConnection(InterestPeer::DATABASE_NAME);
+			$con = Propel::getConnection(QuestionTagPeer::DATABASE_NAME);
 		}
 
 		try {
@@ -219,11 +277,11 @@ abstract class BaseInterest extends BaseObject  implements Persistent {
 
 						if ($this->isModified()) {
 				if ($this->isNew()) {
-					$pk = InterestPeer::doInsert($this, $con);
+					$pk = QuestionTagPeer::doInsert($this, $con);
 					$affectedRows += 1; 										 										 
 					$this->setNew(false);
 				} else {
-					$affectedRows += InterestPeer::doUpdate($this, $con);
+					$affectedRows += QuestionTagPeer::doUpdate($this, $con);
 				}
 				$this->resetModified(); 			}
 
@@ -277,7 +335,7 @@ abstract class BaseInterest extends BaseObject  implements Persistent {
 			}
 
 
-			if (($retval = InterestPeer::doValidate($this, $columns)) !== true) {
+			if (($retval = QuestionTagPeer::doValidate($this, $columns)) !== true) {
 				$failureMap = array_merge($failureMap, $retval);
 			}
 
@@ -292,7 +350,7 @@ abstract class BaseInterest extends BaseObject  implements Persistent {
 	
 	public function getByName($name, $type = BasePeer::TYPE_PHPNAME)
 	{
-		$pos = InterestPeer::translateFieldName($name, $type, BasePeer::TYPE_NUM);
+		$pos = QuestionTagPeer::translateFieldName($name, $type, BasePeer::TYPE_NUM);
 		return $this->getByPosition($pos);
 	}
 
@@ -309,6 +367,12 @@ abstract class BaseInterest extends BaseObject  implements Persistent {
 			case 2:
 				return $this->getCreatedAt();
 				break;
+			case 3:
+				return $this->getTag();
+				break;
+			case 4:
+				return $this->getNormalizedTag();
+				break;
 			default:
 				return null;
 				break;
@@ -317,11 +381,13 @@ abstract class BaseInterest extends BaseObject  implements Persistent {
 	
 	public function toArray($keyType = BasePeer::TYPE_PHPNAME)
 	{
-		$keys = InterestPeer::getFieldNames($keyType);
+		$keys = QuestionTagPeer::getFieldNames($keyType);
 		$result = array(
 			$keys[0] => $this->getQuestionId(),
 			$keys[1] => $this->getUserId(),
 			$keys[2] => $this->getCreatedAt(),
+			$keys[3] => $this->getTag(),
+			$keys[4] => $this->getNormalizedTag(),
 		);
 		return $result;
 	}
@@ -329,7 +395,7 @@ abstract class BaseInterest extends BaseObject  implements Persistent {
 	
 	public function setByName($name, $value, $type = BasePeer::TYPE_PHPNAME)
 	{
-		$pos = InterestPeer::translateFieldName($name, $type, BasePeer::TYPE_NUM);
+		$pos = QuestionTagPeer::translateFieldName($name, $type, BasePeer::TYPE_NUM);
 		return $this->setByPosition($pos, $value);
 	}
 
@@ -346,26 +412,36 @@ abstract class BaseInterest extends BaseObject  implements Persistent {
 			case 2:
 				$this->setCreatedAt($value);
 				break;
+			case 3:
+				$this->setTag($value);
+				break;
+			case 4:
+				$this->setNormalizedTag($value);
+				break;
 		} 	}
 
 	
 	public function fromArray($arr, $keyType = BasePeer::TYPE_PHPNAME)
 	{
-		$keys = InterestPeer::getFieldNames($keyType);
+		$keys = QuestionTagPeer::getFieldNames($keyType);
 
 		if (array_key_exists($keys[0], $arr)) $this->setQuestionId($arr[$keys[0]]);
 		if (array_key_exists($keys[1], $arr)) $this->setUserId($arr[$keys[1]]);
 		if (array_key_exists($keys[2], $arr)) $this->setCreatedAt($arr[$keys[2]]);
+		if (array_key_exists($keys[3], $arr)) $this->setTag($arr[$keys[3]]);
+		if (array_key_exists($keys[4], $arr)) $this->setNormalizedTag($arr[$keys[4]]);
 	}
 
 	
 	public function buildCriteria()
 	{
-		$criteria = new Criteria(InterestPeer::DATABASE_NAME);
+		$criteria = new Criteria(QuestionTagPeer::DATABASE_NAME);
 
-		if ($this->isColumnModified(InterestPeer::QUESTION_ID)) $criteria->add(InterestPeer::QUESTION_ID, $this->question_id);
-		if ($this->isColumnModified(InterestPeer::USER_ID)) $criteria->add(InterestPeer::USER_ID, $this->user_id);
-		if ($this->isColumnModified(InterestPeer::CREATED_AT)) $criteria->add(InterestPeer::CREATED_AT, $this->created_at);
+		if ($this->isColumnModified(QuestionTagPeer::QUESTION_ID)) $criteria->add(QuestionTagPeer::QUESTION_ID, $this->question_id);
+		if ($this->isColumnModified(QuestionTagPeer::USER_ID)) $criteria->add(QuestionTagPeer::USER_ID, $this->user_id);
+		if ($this->isColumnModified(QuestionTagPeer::CREATED_AT)) $criteria->add(QuestionTagPeer::CREATED_AT, $this->created_at);
+		if ($this->isColumnModified(QuestionTagPeer::TAG)) $criteria->add(QuestionTagPeer::TAG, $this->tag);
+		if ($this->isColumnModified(QuestionTagPeer::NORMALIZED_TAG)) $criteria->add(QuestionTagPeer::NORMALIZED_TAG, $this->normalized_tag);
 
 		return $criteria;
 	}
@@ -373,10 +449,11 @@ abstract class BaseInterest extends BaseObject  implements Persistent {
 	
 	public function buildPkeyCriteria()
 	{
-		$criteria = new Criteria(InterestPeer::DATABASE_NAME);
+		$criteria = new Criteria(QuestionTagPeer::DATABASE_NAME);
 
-		$criteria->add(InterestPeer::QUESTION_ID, $this->question_id);
-		$criteria->add(InterestPeer::USER_ID, $this->user_id);
+		$criteria->add(QuestionTagPeer::QUESTION_ID, $this->question_id);
+		$criteria->add(QuestionTagPeer::USER_ID, $this->user_id);
+		$criteria->add(QuestionTagPeer::NORMALIZED_TAG, $this->normalized_tag);
 
 		return $criteria;
 	}
@@ -390,6 +467,8 @@ abstract class BaseInterest extends BaseObject  implements Persistent {
 
 		$pks[1] = $this->getUserId();
 
+		$pks[2] = $this->getNormalizedTag();
+
 		return $pks;
 	}
 
@@ -401,6 +480,8 @@ abstract class BaseInterest extends BaseObject  implements Persistent {
 
 		$this->setUserId($keys[1]);
 
+		$this->setNormalizedTag($keys[2]);
+
 	}
 
 	
@@ -409,11 +490,14 @@ abstract class BaseInterest extends BaseObject  implements Persistent {
 
 		$copyObj->setCreatedAt($this->created_at);
 
+		$copyObj->setTag($this->tag);
+
 
 		$copyObj->setNew(true);
 
 		$copyObj->setQuestionId(NULL); 
 		$copyObj->setUserId(NULL); 
+		$copyObj->setNormalizedTag(NULL); 
 	}
 
 	
@@ -429,7 +513,7 @@ abstract class BaseInterest extends BaseObject  implements Persistent {
 	public function getPeer()
 	{
 		if (self::$peer === null) {
-			self::$peer = new InterestPeer();
+			self::$peer = new QuestionTagPeer();
 		}
 		return self::$peer;
 	}

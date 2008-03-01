@@ -49,6 +49,10 @@ user_require_password:
   url:   /password_request
   param: { module: user, action: passwordRequest }
 
+# tags
+tag:
+  url:   /tag/:tag/:page
+  param: { module: tag, action: show, page: 1 }
 
 # login
 login:

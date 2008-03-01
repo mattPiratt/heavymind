@@ -2,10 +2,10 @@
 
 
 
-class InterestMapBuilder {
+class QuestionTagMapBuilder {
 
 	
-	const CLASS_NAME = 'lib.model.map.InterestMapBuilder';
+	const CLASS_NAME = 'lib.model.map.QuestionTagMapBuilder';
 
 	
 	private $dbMap;
@@ -27,8 +27,8 @@ class InterestMapBuilder {
 	{
 		$this->dbMap = Propel::getDatabaseMap('propel');
 
-		$tMap = $this->dbMap->addTable('ask_interest');
-		$tMap->setPhpName('Interest');
+		$tMap = $this->dbMap->addTable('ask_question_tag');
+		$tMap->setPhpName('QuestionTag');
 
 		$tMap->setUseIdGenerator(false);
 
@@ -37,6 +37,10 @@ class InterestMapBuilder {
 		$tMap->addForeignPrimaryKey('USER_ID', 'UserId', 'int' , CreoleTypes::INTEGER, 'ask_user', 'ID', true, null);
 
 		$tMap->addColumn('CREATED_AT', 'CreatedAt', 'int', CreoleTypes::TIMESTAMP, false, null);
+
+		$tMap->addColumn('TAG', 'Tag', 'string', CreoleTypes::VARCHAR, false, 100);
+
+		$tMap->addPrimaryKey('NORMALIZED_TAG', 'NormalizedTag', 'string', CreoleTypes::VARCHAR, true, 100);
 
 	} 
 } 
