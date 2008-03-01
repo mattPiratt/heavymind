@@ -88,11 +88,11 @@ class Question extends BaseQuestion
   ';
 
     $query = sprintf($query,
-	    QuestionTagPeer::NORMALIZED_TAG,
-	    QuestionTagPeer::NORMALIZED_TAG,
-	    QuestionTagPeer::TABLE_NAME,
-	    QuestionTagPeer::QUESTION_ID,
-	    QuestionTagPeer::NORMALIZED_TAG
+    QuestionTagPeer::NORMALIZED_TAG,
+    QuestionTagPeer::NORMALIZED_TAG,
+    QuestionTagPeer::TABLE_NAME,
+    QuestionTagPeer::QUESTION_ID,
+    QuestionTagPeer::NORMALIZED_TAG
     );
 
     $stmt = $con->prepareStatement($query);
@@ -105,6 +105,22 @@ class Question extends BaseQuestion
     }
 
     return $tags;
+  }
+
+  public function addTagsForUser($phrase, $userId)
+  {
+    // split phrase into individual tags
+    $tags = Tag::splitPhrase($phrase);
+
+    // add tags
+    foreach ($tags as $tag)
+    {
+      $questionTag = new QuestionTag();
+      $questionTag->setQuestionId($this->getId());
+      $questionTag->setUserId($userId);
+      $questionTag->setTag($tag);
+      $questionTag->save();
+    }
   }
 
 

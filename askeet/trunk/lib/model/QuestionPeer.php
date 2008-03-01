@@ -71,5 +71,4 @@ class QuestionPeer extends BaseQuestionPeer
     return $pager;
   }
 }
-
 ?>

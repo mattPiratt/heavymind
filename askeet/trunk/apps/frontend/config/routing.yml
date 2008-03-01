@@ -54,6 +54,19 @@ tag:
   url:   /tag/:tag/:page
   param: { module: tag, action: show, page: 1 }
 
+tag_autocomplete:
+  url:   /tag_autocomplete
+  param: { module: tag, action: autocomplete }
+
+tag_add:
+  url:   /tag_add
+  param: { module: tag, action: add }
+
+popular_tags:
+  url:   /popular_tags
+  param: { module: tag, action: popular }
+
+
 # login
 login:
   url:   /login
