@@ -46,6 +46,8 @@ class UserMapBuilder {
 
 		$tMap->addColumn('SALT', 'Salt', 'string', CreoleTypes::VARCHAR, false, 32);
 
+		$tMap->addColumn('HAS_PAYPAL', 'HasPaypal', 'boolean', CreoleTypes::BOOLEAN, false, null);
+
 		$tMap->addColumn('CREATED_AT', 'CreatedAt', 'int', CreoleTypes::TIMESTAMP, false, null);
 
 	} 

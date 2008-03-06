@@ -72,6 +72,7 @@ CREATE TABLE `ask_user`
 	`email` VARCHAR(100),
 	`sha1_password` VARCHAR(40),
 	`salt` VARCHAR(32),
+	`has_paypal` INTEGER default 0,
 	`created_at` DATETIME,
 	PRIMARY KEY (`id`)
 )Type=InnoDB;

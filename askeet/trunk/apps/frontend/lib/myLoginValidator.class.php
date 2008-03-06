@@ -46,20 +46,10 @@
        return false;
      }
 
-     $c = new Criteria();
-     $c->add(UserPeer::NICKNAME, $login);
-     $user = UserPeer::doSelectOne($c);
-
-     // nickname exists?
-     if ($user)
-     {
-       // password is OK?
-       if (sha1($user->getSalt().$password) == $user->getSha1Password())
-       {
-         $this->getContext()->getUser()->signIn($user);
-
-         return true;
-       }
+     $user = UserPeer::getAuthenticatedUser( $login, $password );
+     if( $user !==null) {
+        $this->getContext()->getUser()->signIn($user);
+        return true;
      }
 
      $error = $this->getParameterHolder()->get('login_error');

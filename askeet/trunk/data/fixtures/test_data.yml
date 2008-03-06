@@ -10,6 +10,7 @@ User:
     last_name:  Potencier
     password:   symfony
     email:      fp@example.com
+    has_paypal: 1
 
   francois:
     nickname:   francois

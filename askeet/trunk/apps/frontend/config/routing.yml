@@ -76,6 +76,10 @@ logout:
   url:   /logout
   param: { module: user, action: logout }
 
+# API
+api_question:
+  url:   /api/question/:stripped_title
+  param: { module: api, action: question }
 
 # feeds
 feed_popular_questions:

@@ -37,6 +37,10 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 
 
 	
+	protected $has_paypal = false;
+
+
+	
 	protected $created_at;
 
 	
@@ -122,6 +126,13 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 	{
 
 		return $this->salt;
+	}
+
+	
+	public function getHasPaypal()
+	{
+
+		return $this->has_paypal;
 	}
 
 	
@@ -259,6 +270,16 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 
 	} 
 	
+	public function setHasPaypal($v)
+	{
+
+		if ($this->has_paypal !== $v || $v === false) {
+			$this->has_paypal = $v;
+			$this->modifiedColumns[] = UserPeer::HAS_PAYPAL;
+		}
+
+	} 
+	
 	public function setCreatedAt($v)
 	{
 
@@ -294,13 +315,15 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 
 			$this->salt = $rs->getString($startcol + 6);
 
-			$this->created_at = $rs->getTimestamp($startcol + 7, null);
+			$this->has_paypal = $rs->getBoolean($startcol + 7);
+
+			$this->created_at = $rs->getTimestamp($startcol + 8, null);
 
 			$this->resetModified();
 
 			$this->setNew(false);
 
-						return $startcol + 8; 
+						return $startcol + 9; 
 		} catch (Exception $e) {
 			throw new PropelException("Error populating User object", $e);
 		}
@@ -534,6 +557,9 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 				return $this->getSalt();
 				break;
 			case 7:
+				return $this->getHasPaypal();
+				break;
+			case 8:
 				return $this->getCreatedAt();
 				break;
 			default:
@@ -553,7 +579,8 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 			$keys[4] => $this->getEmail(),
 			$keys[5] => $this->getSha1Password(),
 			$keys[6] => $this->getSalt(),
-			$keys[7] => $this->getCreatedAt(),
+			$keys[7] => $this->getHasPaypal(),
+			$keys[8] => $this->getCreatedAt(),
 		);
 		return $result;
 	}
@@ -591,6 +618,9 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 				$this->setSalt($value);
 				break;
 			case 7:
+				$this->setHasPaypal($value);
+				break;
+			case 8:
 				$this->setCreatedAt($value);
 				break;
 		} 	}
@@ -607,7 +637,8 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 		if (array_key_exists($keys[4], $arr)) $this->setEmail($arr[$keys[4]]);
 		if (array_key_exists($keys[5], $arr)) $this->setSha1Password($arr[$keys[5]]);
 		if (array_key_exists($keys[6], $arr)) $this->setSalt($arr[$keys[6]]);
-		if (array_key_exists($keys[7], $arr)) $this->setCreatedAt($arr[$keys[7]]);
+		if (array_key_exists($keys[7], $arr)) $this->setHasPaypal($arr[$keys[7]]);
+		if (array_key_exists($keys[8], $arr)) $this->setCreatedAt($arr[$keys[8]]);
 	}
 
 	
@@ -622,6 +653,7 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 		if ($this->isColumnModified(UserPeer::EMAIL)) $criteria->add(UserPeer::EMAIL, $this->email);
 		if ($this->isColumnModified(UserPeer::SHA1_PASSWORD)) $criteria->add(UserPeer::SHA1_PASSWORD, $this->sha1_password);
 		if ($this->isColumnModified(UserPeer::SALT)) $criteria->add(UserPeer::SALT, $this->salt);
+		if ($this->isColumnModified(UserPeer::HAS_PAYPAL)) $criteria->add(UserPeer::HAS_PAYPAL, $this->has_paypal);
 		if ($this->isColumnModified(UserPeer::CREATED_AT)) $criteria->add(UserPeer::CREATED_AT, $this->created_at);
 
 		return $criteria;
@@ -664,6 +696,8 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 		$copyObj->setSha1Password($this->sha1_password);
 
 		$copyObj->setSalt($this->salt);
+
+		$copyObj->setHasPaypal($this->has_paypal);
 
 		$copyObj->setCreatedAt($this->created_at);
 
