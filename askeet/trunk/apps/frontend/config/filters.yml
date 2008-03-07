@@ -8,3 +8,8 @@ cache:     ~
 common:    ~
 flash:     ~
 execution: ~
+
+myTagFilter:
+  class: myTagFilter
+  param:
+    host_exclude_regex: /^(www|askeet)/

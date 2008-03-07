@@ -6,6 +6,7 @@ all:
     users_max:    10
   feed:
     max: 10
-all:
   tag:
     cloud_max:   40
+  .global:
+    universe: on

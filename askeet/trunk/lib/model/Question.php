@@ -68,7 +68,13 @@ class Question extends BaseQuestion
     $rs = QuestionTagPeer::doSelectRS($c);
     while ($rs->next())
     {
-      $tags[] = $rs->getString(1);
+      $tag = $rs->getString(1);
+      if (sfConfig::get('app_permanent_tag') == $tag)
+      {
+        continue;
+      }
+
+      $tags[] = $tag;
     }
 
     return $tags;
@@ -101,7 +107,12 @@ class Question extends BaseQuestion
     $rs = $stmt->executeQuery();
     while ($rs->next())
     {
-      $tags[$rs->getString('tag')] = $rs->getInt('count');
+      $tag = $rs->getString('tag');
+      if (sfConfig::get('app_permanent_tag') == $tag)
+      {
+        continue;
+      }
+      $tags[$tag] = $rs->getInt('count');
     }
 
     return $tags;
@@ -110,7 +121,7 @@ class Question extends BaseQuestion
   public function addTagsForUser($phrase, $userId)
   {
     // split phrase into individual tags
-    $tags = Tag::splitPhrase($phrase);
+    $tags = Tag::splitPhrase($phrase.(sfConfig::get('app_permanent_tag') ? ' '.sfConfig::get('app_permanent_tag') : ''));
 
     // add tags
     foreach ($tags as $tag)

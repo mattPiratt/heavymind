@@ -24,6 +24,7 @@ class QuestionPeer extends BaseQuestionPeer
   {
     $c = new Criteria();
     $c->add(self::STRIPPED_TITLE, $title);
+    $c = self::addPermanentTagToCriteria($c);
 
     $questions = self::doSelectJoinUser($c);
 
@@ -35,6 +36,8 @@ class QuestionPeer extends BaseQuestionPeer
     $pager = new sfPropelPager('Question', sfConfig::get('app_pager_homepage_max'));
     $c = new Criteria();
     $c->addDescendingOrderByColumn(self::INTERESTED_USERS);
+    $c = self::addPermanentTagToCriteria($c);
+
     $pager->setCriteria($c);
     $pager->setPage($page);
     $pager->setPeerMethod('doSelectJoinUser');
@@ -48,6 +51,7 @@ class QuestionPeer extends BaseQuestionPeer
     $pager = new sfPropelPager('Question', sfConfig::get('app_pager_homepage_max'));
     $c = new Criteria();
     $c->addDescendingOrderByColumn(self::CREATED_AT);
+    $c = self::addPermanentTagToCriteria($c);
     $pager->setCriteria($c);
     $pager->setPage($page);
     $pager->setPeerMethod('doSelectJoinUser');
@@ -62,6 +66,7 @@ class QuestionPeer extends BaseQuestionPeer
     $c->add(QuestionTagPeer::NORMALIZED_TAG, $tag);
     $c->addDescendingOrderByColumn(QuestionPeer::INTERESTED_USERS);
     $c->addJoin(QuestionTagPeer::QUESTION_ID, QuestionPeer::ID, Criteria::LEFT_JOIN);
+    $c = self::addPermanentTagToCriteria($c);
 
     $pager = new sfPropelPager('Question', sfConfig::get('app_pager_homepage_max'));
     $pager->setCriteria($c);
@@ -69,6 +74,18 @@ class QuestionPeer extends BaseQuestionPeer
     $pager->init();
 
     return $pager;
+  }
+
+  private static function addPermanentTagToCriteria($criteria)
+  {
+    if (sfConfig::get('app_permanent_tag'))
+    {
+      $criteria->addJoin(self::ID, QuestionTagPeer::QUESTION_ID, Criteria::LEFT_JOIN);
+      $criteria->add(QuestionTagPeer::NORMALIZED_TAG, sfConfig::get('app_permanent_tag'));
+      $criteria->setDistinct();
+    }
+
+    return $criteria;
   }
 }
 ?>

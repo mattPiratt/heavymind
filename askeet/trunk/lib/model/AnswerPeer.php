@@ -20,32 +20,46 @@ include_once 'model/Answer.php';
  */
 class AnswerPeer extends BaseAnswerPeer
 {
-	public static function getPager($question_id, $page)
-	{
-		$pager = new sfPropelPager('Answer', sfConfig::get('app_pager_homepage_max'));
-		$c = new Criteria();
-		$c->add(self::QUESTION_ID, $question_id);
-		$c->addDescendingOrderByColumn(self::RELEVANCY_UP);
-		$c->addDescendingOrderByColumn(self::CREATED_AT);
-		$pager->setCriteria($c);
-		$pager->setPage($page);
-		$pager->init();
+  public static function getPager($question_id, $page)
+  {
+    $pager = new sfPropelPager('Answer', sfConfig::get('app_pager_homepage_max'));
+    $c = new Criteria();
+    $c->add(self::QUESTION_ID, $question_id);
+    $c->addDescendingOrderByColumn(self::RELEVANCY_UP);
+    $c->addDescendingOrderByColumn(self::CREATED_AT);
+    $c = self::addPermanentTagToCriteria($c);
+    $pager->setCriteria($c);
+    $pager->setPage($page);
+    $pager->init();
 
-		return $pager;
-	}
+    return $pager;
+  }
 
-	public static function getRecentPager($page)
-	{
-		$pager = new sfPropelPager('Answer', sfConfig::get('app_pager_homepage_max'));
-		$c = new Criteria();
-		$c->addDescendingOrderByColumn(self::CREATED_AT);
-		$pager->setCriteria($c);
-		$pager->setPage($page);
-		$pager->setPeerMethod('doSelectJoinUser');
-		$pager->init();
+  public static function getRecentPager($page)
+  {
+    $pager = new sfPropelPager('Answer', sfConfig::get('app_pager_homepage_max'));
+    $c = new Criteria();
+    $c->addDescendingOrderByColumn(self::CREATED_AT);
+    $c = self::addPermanentTagToCriteria($c);
+    $pager->setCriteria($c);
+    $pager->setPage($page);
+    $pager->setPeerMethod('doSelectJoinUser');
+    $pager->init();
 
-		return $pager;
-	}
+    return $pager;
+  }
+
+  private static function addPermanentTagToCriteria($criteria)
+  {
+    if (sfConfig::get('app_permanent_tag'))
+    {
+      $criteria->addJoin(self::ID, QuestionTagPeer::QUESTION_ID, Criteria::LEFT_JOIN);
+      $criteria->add(QuestionTagPeer::NORMALIZED_TAG, sfConfig::get('app_permanent_tag'));
+      $criteria->setDistinct();
+    }
+
+    return $criteria;
+  }
 }
 
 ?>
