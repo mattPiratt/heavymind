@@ -6,7 +6,7 @@
  * @package    askeet
  * @subpackage user
  * @author     Your name here
- * @version    SVN: $Id: myLoginValidator.class.php 16 2005-12-06 08:28:05Z fabien $
+ * @version    SVN: $Id: myLoginValidator.class.php 48 2005-12-17 10:51:26Z fabien $
  */
  class myLoginValidator extends sfValidator
  {    
@@ -46,10 +46,11 @@
        return false;
      }
 
-     $user = UserPeer::getAuthenticatedUser( $login, $password );
-     if( $user !==null) {
-        $this->getContext()->getUser()->signIn($user);
-        return true;
+     if ($user = UserPeer::getAuthenticatedUser($login, $password))
+     {
+       $this->getContext()->getUser()->signIn($user);
+
+       return true;
      }
 
      $error = $this->getParameterHolder()->get('login_error');

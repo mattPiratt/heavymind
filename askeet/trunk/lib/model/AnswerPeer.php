@@ -1,23 +1,23 @@
 <?php
 
-// include base peer class
-require_once 'model/om/BaseAnswerPeer.php';
-
-// include object class
-include_once 'model/Answer.php';
+  // include base peer class
+  require_once 'model/om/BaseAnswerPeer.php';
+  
+  // include object class
+  include_once 'model/Answer.php';
 
 
 /**
  * Skeleton subclass for performing query and update operations on the 'ask_answer' table.
  *
- *
+ * 
  *
  * You should add additional methods to this class to meet the
  * application requirements.  This class will only be generated as
  * long as it does not already exist in the output directory.
  *
  * @package model
- */
+ */	
 class AnswerPeer extends BaseAnswerPeer
 {
   public static function getPager($question_id, $page)
@@ -49,11 +49,21 @@ class AnswerPeer extends BaseAnswerPeer
     return $pager;
   }
 
+  public static function getRecent($max = 10)
+  {
+    $c = new Criteria();
+    $c->addDescendingOrderByColumn(self::CREATED_AT);
+    $c = self::addPermanentTagToCriteria($c);
+    $c->setLimit($max);
+
+    return self::doSelectJoinUser($c);
+  }
+
   private static function addPermanentTagToCriteria($criteria)
   {
     if (sfConfig::get('app_permanent_tag'))
     {
-      $criteria->addJoin(self::ID, QuestionTagPeer::QUESTION_ID, Criteria::LEFT_JOIN);
+      $criteria->addJoin(self::QUESTION_ID, QuestionTagPeer::QUESTION_ID, Criteria::LEFT_JOIN);
       $criteria->add(QuestionTagPeer::NORMALIZED_TAG, sfConfig::get('app_permanent_tag'));
       $criteria->setDistinct();
     }

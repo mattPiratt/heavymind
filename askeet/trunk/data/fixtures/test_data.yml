@@ -54,16 +54,20 @@ Question:
       I have a very swell blog that talks 
       about my class and mates and pets and favorite movies.
 
-QuestionTag:
-  t1: { question_id: q1, user_id: fabien, tag: relatives }
-  t2: { question_id: q1, user_id: fabien, tag: girl }
-  t4: { question_id: q1, user_id: francois, tag: activities }
-  t6: { question_id: q2, user_id: francois, tag: 'real life' }
-  t5: { question_id: q2, user_id: fabien, tag: relatives }
-  t5: { question_id: q2, user_id: fabien, tag: present }
-  t6: { question_id: q2, user_id: francois, tag: 'real life' }
-  t7: { question_id: q3, user_id: francois, tag: blog }
-  t8: { question_id: q3, user_id: francois, tag: activities }
+  q4:
+    title: Test4
+    user_id: anonymous
+    body: Test
+
+  q5:
+    title: Test4
+    user_id: anonymous
+    body: Test
+
+  q6:
+    title: Test4
+    user_id: anonymous
+    body: Test
 
 Interest:
   i2: { user_id: francois, question_id: q1 }
@@ -107,3 +111,14 @@ Relevancy:
     answer_id: a1_q1
     user_id:   francois
     score:     -1
+
+QuestionTag:
+  t1: { question_id: q1, user_id: fabien, tag: relatives }
+  t2: { question_id: q1, user_id: fabien, tag: girl }
+  t4: { question_id: q1, user_id: francois, tag: activities }
+  t6: { question_id: q2, user_id: francois, tag: 'real life' }
+  t5: { question_id: q2, user_id: fabien, tag: relatives }
+  t5: { question_id: q2, user_id: fabien, tag: present }
+  t6: { question_id: q2, user_id: francois, tag: 'real life' }
+  t7: { question_id: q3, user_id: francois, tag: blog }
+  t8: { question_id: q3, user_id: francois, tag: activities }

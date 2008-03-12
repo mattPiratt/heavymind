@@ -451,9 +451,6 @@ abstract class BaseQuestionTag extends BaseObject  implements Persistent {
 	{
 		$criteria = new Criteria(QuestionTagPeer::DATABASE_NAME);
 
-		$criteria->add(QuestionTagPeer::QUESTION_ID, $this->question_id);
-		$criteria->add(QuestionTagPeer::USER_ID, $this->user_id);
-		$criteria->add(QuestionTagPeer::NORMALIZED_TAG, $this->normalized_tag);
 
 		return $criteria;
 	}
@@ -461,43 +458,31 @@ abstract class BaseQuestionTag extends BaseObject  implements Persistent {
 	
 	public function getPrimaryKey()
 	{
-		$pks = array();
-
-		$pks[0] = $this->getQuestionId();
-
-		$pks[1] = $this->getUserId();
-
-		$pks[2] = $this->getNormalizedTag();
-
-		return $pks;
+		return null;
 	}
 
 	
-	public function setPrimaryKey($keys)
-	{
-
-		$this->setQuestionId($keys[0]);
-
-		$this->setUserId($keys[1]);
-
-		$this->setNormalizedTag($keys[2]);
-
-	}
+	 public function setPrimaryKey($pk)
+	 {
+		 	 }
 
 	
 	public function copyInto($copyObj, $deepCopy = false)
 	{
 
+		$copyObj->setQuestionId($this->question_id);
+
+		$copyObj->setUserId($this->user_id);
+
 		$copyObj->setCreatedAt($this->created_at);
 
 		$copyObj->setTag($this->tag);
 
+		$copyObj->setNormalizedTag($this->normalized_tag);
+
 
 		$copyObj->setNew(true);
 
-		$copyObj->setQuestionId(NULL); 
-		$copyObj->setUserId(NULL); 
-		$copyObj->setNormalizedTag(NULL); 
 	}
 
 	

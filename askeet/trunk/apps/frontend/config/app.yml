@@ -1,12 +1,13 @@
 # default values
 all:
   pager:
-    homepage_max: 2
-    answers_max:  1
-    users_max:    10
+    homepage_max:        10
+    answers_max:         10
+    users_max:           10
+
   feed:
     max: 10
   tag:
     cloud_max:   40
   .global:
-    universe: on
+    universe:            on

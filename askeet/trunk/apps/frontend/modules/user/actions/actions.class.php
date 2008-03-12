@@ -6,7 +6,7 @@
  * @package    askeet
  * @subpackage user
  * @author     Your name here
- * @version    SVN: $Id: actions.class.php 23 2005-12-08 09:47:03Z fabien $
+ * @version    SVN: $Id: actions.class.php 48 2005-12-17 10:51:26Z fabien $
  */
 class userActions extends sfActions
 {
@@ -25,12 +25,7 @@ class userActions extends sfActions
     $this->question = QuestionPeer::retrieveByPk($this->getRequestParameter('id'));
     $this->forward404Unless($this->question);
 
-    $user = $this->getUser()->getSubscriber();
-
-    $interest = new Interest();
-    $interest->setQuestion($this->question);
-    $interest->setUser($user);
-    $interest->save();
+    $this->getUser()->getSubscriber()->isInterestedIn($this->question);
   }
 
   public function executeVote()
@@ -55,21 +50,46 @@ class userActions extends sfActions
     }
     else
     {
-      $this->subscriber = UserPeer::retrieveByPk($this->getUser()->getSubscriberId());
+      $this->subscriber = $this->getUser()->getSubscriber();
     }
     $this->forward404Unless($this->subscriber);
 
-    $this->interests = $this->subscriber->getInterestsJoinQuestion();
-    $this->answers   = $this->subscriber->getAnswersJoinQuestion();
-    $this->questions = $this->subscriber->getQuestions();
+    $this->setShowVars();
+  }
+
+  public function executeUpdate()
+  {
+    if ($this->getRequest()->getMethod() != sfRequest::POST)
+    {
+      $this->forward404();
+    }
+
+    $this->subscriber = $this->getUser()->getSubscriber();
+    $this->forward404Unless($this->subscriber);
+
+    $this->updateUserFromRequest();
+
+    // password update
+    if ($this->getRequestParameter('password'))
+    {
+      $this->subscriber->setPassword($this->getRequestParameter('password'));
+    }
+
+    $this->subscriber->save();
+
+    $this->redirect('@user_profile?nickname='.$this->subscriber->getNickname());
   }
 
   public function executeLogin()
   {
+    $this->getRequest()->setAttribute('newaccount', false);
+
     if ($this->getRequest()->getMethod() != sfRequest::POST)
     {
       // display the form
-      $this->getRequest()->getParameterHolder()->set('referer', $this->getRequest()->getReferer());
+      $this->getResponse()->setTitle('askeet! &raquo; sign in / register');
+      $this->getRequest()->getAttributeHolder()->set('referer', $this->getRequest()->getReferer());
+
       return sfView::SUCCESS;
     }
     else
@@ -85,11 +105,6 @@ class userActions extends sfActions
     $this->getUser()->signOut();
 
     $this->redirect('@homepage');
-  }
-
-  public function handleErrorLogin()
-  {
-    return sfView::SUCCESS;
   }
 
   public function executePasswordRequest()
@@ -116,7 +131,7 @@ class userActions extends sfActions
       $this->getRequest()->setAttribute('nickname', $user->getNickname());
 
       $raw_email = $this->sendEmail('mail', 'sendPassword');
-      $this->logMessage($raw_email, 'debug');
+      $this->getLogger()->debug($raw_email);
 
       // save new password
       $user->save();
@@ -131,9 +146,68 @@ class userActions extends sfActions
     }
   }
 
+  public function executeAdd()
+  {
+    // process only POST requests
+    if ($this->getRequest()->getMethod() == sfRequest::POST)
+    {
+      $user = new User();
+      $user->setNickname($this->getRequestParameter('nickname'));
+      $user->setEmail($this->getRequestParameter('email'));
+      $user->setPassword($this->getRequestParameter('password'));
+
+      $user->save();
+
+      $this->forward('user', 'login');
+    }
+
+    $this->getRequest()->setAttribute('newaccount', true);
+    $this->forward('user', 'login');
+  }
+
+  public function handleErrorLogin()
+  {
+    return sfView::SUCCESS;
+  }
+
+  public function handleErrorAdd()
+  {
+    $this->getRequest()->setAttribute('newaccount', true);
+
+    return array('user', 'loginSuccess');
+  }
+
   public function handleErrorPasswordRequest()
   {
     return sfView::SUCCESS;
+  }
+
+  public function handleErrorUpdate()
+  {
+    $this->subscriber = $this->getUser()->getSubscriber();
+    $this->forward404Unless($this->subscriber);
+
+    $this->updateUserFromRequest();
+    $this->setShowVars();
+
+    return array('user', 'showSuccess');
+  }
+
+  private function updateUserFromRequest()
+  {
+    $this->subscriber->setFirstName($this->getRequestParameter('first_name'));
+    $this->subscriber->setLastName($this->getRequestParameter('last_name'));
+    $this->subscriber->setEmail($this->getRequestParameter('email'));
+    $this->subscriber->setHasPaypal($this->getRequestParameter('has_paypal'), 0);
+  }
+
+  private function setShowVars()
+  {
+    $this->interests = $this->subscriber->getInterestsJoinQuestion();
+    $this->answers   = $this->subscriber->getAnswersJoinQuestion();
+    $this->questions = $this->subscriber->getQuestions();
+
+    $this->getResponse()->setTitle('askeet! &raquo; '.$this->subscriber->__toString().'\'s profile');
   }
 }
 

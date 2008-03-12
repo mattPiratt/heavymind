@@ -37,6 +37,10 @@ user_profile:
   url:   /user/:nickname
   param: { module: user, action: show }
 
+user_update:
+  url:   /update_user
+  param: { module: user, action: update }
+
 current_user_profile:
   url:   /user
   param: { module: user, action: show }
@@ -49,7 +53,16 @@ user_require_password:
   url:   /password_request
   param: { module: user, action: passwordRequest }
 
-# tags
+# login
+login:
+  url:   /login
+  param: { module: user, action: login }
+
+logout:
+  url:   /logout
+  param: { module: user, action: logout }
+
+# tag
 tag:
   url:   /tag/:tag/:page
   param: { module: tag, action: show, page: 1 }
@@ -66,17 +79,29 @@ popular_tags:
   url:   /popular_tags
   param: { module: tag, action: popular }
 
+tag_remove:
+  url:   /question/:stripped_title/tag/remove/:tag
+  param: { module: tag, action: remove }
 
-# login
-login:
-  url:   /login
-  param: { module: user, action: login }
+# feeds
+feed_recent_answers:
+  url:   /feed/recent_answers
+  param: { module: feed, action: recentAnswers }
 
-logout:
-  url:   /logout
-  param: { module: user, action: logout }
+feed_recent_questions:
+  url:   /feed/recent
+  param: { module: feed, action: recent }
 
-# API
+feed_question:
+  url:   /feed/question/:stripped_title
+  param: { module: feed, action: question }
+
+# content
+about:
+  url:   /about
+  param: { module: content, action: about }
+
+# api
 api_question:
   url:   /api/question/:stripped_title
   param: { module: api, action: question }

@@ -3,13 +3,14 @@
 #content_main
 {
   float: left;
-  width: 530px;
+  width: 480px;
   margin-right: 10px;
 }
 #content_bar
 {
   float: left;
-  width: 240px;
+  width: 220px;
+  padding:10px;
 }
 /* Start Mac IE5 filter \*/
 #content_main, #content_bar

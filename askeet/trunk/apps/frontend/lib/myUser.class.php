@@ -21,17 +21,38 @@ class myUser extends sfBasicSecurityUser
 
   public function getSubscriberId()
   {
-    return $this->getAttribute('subscriber_id', '', 'subscriber');
+    if ($this->isAuthenticated())
+    {
+      return $this->getAttribute('subscriber_id', '', 'subscriber');
+    }
+    else
+    {
+      return 0;
+    }
   }
 
   public function getSubscriber()
   {
-    return UserPeer::retrieveByPk($this->getSubscriberId());
+    if ($this->isAuthenticated())
+    {
+      return UserPeer::retrieveByPk($this->getSubscriberId());
+    }
+    else
+    {
+      return null;
+    }
   }
 
   public function getNickname()
   {
-    return $this->getAttribute('nickname', '', 'subscriber');
+    if ($this->isAuthenticated())
+    {
+      return $this->getAttribute('nickname', '', 'subscriber');
+    }
+    else
+    {
+      return '';
+    }
   }
 }
 

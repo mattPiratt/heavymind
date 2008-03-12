@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<database name="propel" defaultIdMethod="native" noxsd="true">
+<database name="propel" defaultIdMethod="native">
 	<table name="ask_question" phpName="Question">
 		<column name="id" type="integer" required="true"
 			primaryKey="true" autoincrement="true" />
@@ -73,21 +73,26 @@
 	</table>
 
 	<table name="ask_question_tag" phpName="QuestionTag">
-		<column name="question_id" type="integer" primaryKey="true" />
+		<column name="question_id" type="integer" />
 		<foreign-key foreignTable="ask_question">
 			<reference local="question_id" foreign="id" />
 		</foreign-key>
-		<column name="user_id" type="integer" primaryKey="true" />
+		<column name="user_id" type="integer" />
 		<foreign-key foreignTable="ask_user">
 			<reference local="user_id" foreign="id" />
 		</foreign-key>
 		<column name="created_at" type="timestamp" />
 		<column name="tag" type="varchar" size="100" />
-		<column name="normalized_tag" type="varchar" size="100"
-			primaryKey="true" />
+		<column name="normalized_tag" type="varchar" size="100" />
+
 		<index name="normalized_tag_index">
 			<index-column name="normalized_tag" />
 		</index>
+		<unique name="pk">
+			<unique-column name="question_id" />
+			<unique-column name="user_id" />
+			<unique-column name="normalized_tag" />
+		</unique>
 	</table>
 
 </database>

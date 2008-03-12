@@ -1,0 +1,6 @@
+popular:
+  activate:   on
+  type:       slot
+
+all:
+  lifeTime:   600

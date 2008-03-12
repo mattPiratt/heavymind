@@ -6,14 +6,14 @@ require_once 'model/om/BaseQuestion.php';
 /**
  * Skeleton subclass for representing a row from the 'ask_question' table.
  *
- *
+ * 
  *
  * You should add additional methods to this class to meet the
  * application requirements.  This class will only be generated as
  * long as it does not already exist in the output directory.
  *
  * @package model
- */
+ */	
 class Question extends BaseQuestion
 {
   public function setTitle($v)
@@ -42,7 +42,7 @@ class Question extends BaseQuestion
   }
 
   public function getInterestedUsersPager($page)
-  {
+  {   
     $c = new Criteria();
     $c->addJoin(UserPeer::ID, InterestPeer::USER_ID, Criteria::LEFT_JOIN);
     $c->add(InterestPeer::QUESTION_ID, $this->getId());
@@ -58,23 +58,20 @@ class Question extends BaseQuestion
   public function getTags()
   {
     $c = new Criteria();
-    $c->clearSelectColumns();
-    $c->addSelectColumn(QuestionTagPeer::NORMALIZED_TAG);
     $c->add(QuestionTagPeer::QUESTION_ID, $this->getId());
+    $c->addGroupByColumn(QuestionTagPeer::NORMALIZED_TAG);
     $c->setDistinct();
     $c->addAscendingOrderByColumn(QuestionTagPeer::NORMALIZED_TAG);
 
     $tags = array();
-    $rs = QuestionTagPeer::doSelectRS($c);
-    while ($rs->next())
+    foreach (QuestionTagPeer::doSelect($c) as $tag)
     {
-      $tag = $rs->getString(1);
       if (sfConfig::get('app_permanent_tag') == $tag)
       {
         continue;
       }
 
-      $tags[] = $tag;
+      $tags[] = $tag->getNormalizedTag();
     }
 
     return $tags;
@@ -86,19 +83,19 @@ class Question extends BaseQuestion
 
     $con = Propel::getConnection();
     $query = '
-    SELECT %s AS tag, COUNT(%s) AS count
-    FROM %s
-    WHERE %s = ?
-    GROUP BY %s
-    ORDER BY count DESC
-  ';
+      SELECT %s AS tag, COUNT(%s) AS count
+      FROM %s
+      WHERE %s = ?
+      GROUP BY %s
+      ORDER BY count DESC
+    ';
 
     $query = sprintf($query,
-    QuestionTagPeer::NORMALIZED_TAG,
-    QuestionTagPeer::NORMALIZED_TAG,
-    QuestionTagPeer::TABLE_NAME,
-    QuestionTagPeer::QUESTION_ID,
-    QuestionTagPeer::NORMALIZED_TAG
+      QuestionTagPeer::NORMALIZED_TAG,
+      QuestionTagPeer::NORMALIZED_TAG,
+      QuestionTagPeer::TABLE_NAME,
+      QuestionTagPeer::QUESTION_ID,
+      QuestionTagPeer::NORMALIZED_TAG
     );
 
     $stmt = $con->prepareStatement($query);
@@ -112,7 +109,8 @@ class Question extends BaseQuestion
       {
         continue;
       }
-      $tags[$tag] = $rs->getInt('count');
+
+      $tags[$rs->getString('tag')] = $rs->getInt('count');
     }
 
     return $tags;
@@ -130,11 +128,26 @@ class Question extends BaseQuestion
       $questionTag->setQuestionId($this->getId());
       $questionTag->setUserId($userId);
       $questionTag->setTag($tag);
-      $questionTag->save();
+      try
+      {
+        $questionTag->save();
+      }
+      catch (PropelException $e)
+      {
+        // duplicate tag for this user and question
+      }
     }
   }
 
+  public function getPopularAnswers()
+  {
+    $c = new Criteria();
+    $c->add(AnswerPeer::QUESTION_ID, $this->getId());
+    $c->addAsColumn('relevancy', AnswerPeer::RELEVANCY_UP.' / ('.AnswerPeer::RELEVANCY_UP.' + '.AnswerPeer::RELEVANCY_DOWN.')');
+    $c->addDescendingOrderByColumn('relevancy');
 
+    return AnswerPeer::doSelect($c);
+  }
 }
 
 ?>

@@ -117,8 +117,8 @@ abstract class BaseQuestionTagPeer {
 
 	}
 
-	const COUNT = 'COUNT(ask_question_tag.QUESTION_ID)';
-	const COUNT_DISTINCT = 'COUNT(DISTINCT ask_question_tag.QUESTION_ID)';
+	const COUNT = 'COUNT(*)';
+	const COUNT_DISTINCT = 'COUNT(DISTINCT *)';
 
 	
 	public static function doCount(Criteria $criteria, $distinct = false, $con = null)
@@ -677,15 +677,6 @@ abstract class BaseQuestionTagPeer {
 
 		if ($values instanceof Criteria) {
 			$criteria = clone $values; 
-			$comparison = $criteria->getComparison(QuestionTagPeer::QUESTION_ID);
-			$selectCriteria->add(QuestionTagPeer::QUESTION_ID, $criteria->remove(QuestionTagPeer::QUESTION_ID), $comparison);
-
-			$comparison = $criteria->getComparison(QuestionTagPeer::USER_ID);
-			$selectCriteria->add(QuestionTagPeer::USER_ID, $criteria->remove(QuestionTagPeer::USER_ID), $comparison);
-
-			$comparison = $criteria->getComparison(QuestionTagPeer::NORMALIZED_TAG);
-			$selectCriteria->add(QuestionTagPeer::NORMALIZED_TAG, $criteria->remove(QuestionTagPeer::NORMALIZED_TAG), $comparison);
-
 		} else { 			$criteria = $values->buildCriteria(); 			$selectCriteria = $values->buildPkeyCriteria(); 		}
 
 				$criteria->setDbName(self::DATABASE_NAME);
@@ -720,7 +711,7 @@ abstract class BaseQuestionTagPeer {
 		if ($values instanceof Criteria) {
 			$criteria = clone $values; 		} elseif ($values instanceof QuestionTag) {
 
-			$criteria = $values->buildPkeyCriteria();
+			$criteria = $values->buildCriteria();
 		} else {
 						$criteria = new Criteria(self::DATABASE_NAME);
 												if(count($values) == count($values, COUNT_RECURSIVE))
@@ -731,14 +722,8 @@ abstract class BaseQuestionTagPeer {
 			foreach($values as $value)
 			{
 
-				$vals[0][] = $value[0];
-				$vals[1][] = $value[1];
-				$vals[2][] = $value[2];
 			}
 
-			$criteria->add(QuestionTagPeer::QUESTION_ID, $vals[0], Criteria::IN);
-			$criteria->add(QuestionTagPeer::USER_ID, $vals[1], Criteria::IN);
-			$criteria->add(QuestionTagPeer::NORMALIZED_TAG, $vals[2], Criteria::IN);
 		}
 
 				$criteria->setDbName(self::DATABASE_NAME);
@@ -791,19 +776,6 @@ abstract class BaseQuestionTagPeer {
     return $res;
 	}
 
-	
-	public static function retrieveByPK( $question_id, $user_id, $normalized_tag, $con = null) {
-		if ($con === null) {
-			$con = Propel::getConnection(self::DATABASE_NAME);
-		}
-		$criteria = new Criteria();
-		$criteria->add(QuestionTagPeer::QUESTION_ID, $question_id);
-		$criteria->add(QuestionTagPeer::USER_ID, $user_id);
-		$criteria->add(QuestionTagPeer::NORMALIZED_TAG, $normalized_tag);
-		$v = QuestionTagPeer::doSelect($criteria, $con);
-
-		return !empty($v) ? $v[0] : null;
-	}
 } 
 if (Propel::isInit()) {
 			try {

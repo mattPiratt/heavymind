@@ -6,19 +6,10 @@
  * @package    askeet
  * @subpackage mail
  * @author     Your name here
- * @version    SVN: $Id: actions.class.php 2692 2006-11-15 21:03:55Z fabien $
+ * @version    SVN: $Id: actions.class.php 29 2005-12-12 11:33:22Z fabien $
  */
 class mailActions extends sfActions
 {
-  /**
-   * Executes index action
-   *
-   */
-  public function executeIndex()
-  {
-    $this->forward('default', 'module');
-  }
-
   public function executeSendPassword()
   {
     $mail = new sfMail();
@@ -28,7 +19,7 @@ class mailActions extends sfActions
 
     $mail->setPriority(1);
 
-    $mail->addEmbeddedImage(sfConfig::get('sf_web_dir').'/images/askeet_logo.gif', 'CID1', 'Askeet Logo', 'base64', 'image/gif');
+    $mail->addEmbeddedImage(SF_WEB_DIR.'/images/askeet_logo.gif', 'CID1', 'Askeet Logo', 'base64', 'image/gif');
 
     $this->mail = $mail;
 
@@ -36,3 +27,5 @@ class mailActions extends sfActions
     $this->password = $this->getRequest()->getAttribute('password');
   }
 }
+
+?>

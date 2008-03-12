@@ -1,8 +1,15 @@
-<?php use_helper('Date', 'Answer') ?>
+<?php use_helper('Date', 'Answer', 'Question') ?>
 
 <h1>recent answers</h1>
 
-<?php include_partial('list', array('answer_pager' => $answer_pager)) ?>
+<div id="answers">
+<?php foreach ($answer_pager->getResults() as $answer): ?>
+  <div class="answer">
+    <h2><?php echo link_to_question($answer->getQuestion()) ?></h2>
+    <?php include_partial('answer/answer', array('answer' => $answer)) ?>
+  </div>
+<?php endforeach ?>
+</div>
 
 <?php if ($answer_pager->haveToPaginate()): ?>
   <div id="answers_pager">

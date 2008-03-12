@@ -1,9 +1,12 @@
 <?php use_helper('Global') ?>
-<?php echo link_to('ask a new question', '@add_question') ?>
- 
-<ul>
-  <li><?php echo link_to('popular questions', '@popular_questions') ?> 
-  	<?php echo link_to_feed('popular questions', '@feed_popular_questions') ?></li>
-  <li><?php echo link_to('latest questions', '@recent_questions') ?></li>
-  <li><?php echo link_to('latest answers', '@recent_answers') ?></li>
-</ul>
+
+<div id="add_question">
+  <?php echo link_to_login('ask a new question', '@add_question') ?>
+</div>
+
+<h2>popular tags</h2>
+<?php echo include_partial('tag/tag_cloud', array('tags' => QuestionTagPeer::getPopularTags(20))) ?>
+<div class="right" style="padding-top: 5px"><?php echo link_to('more popular tags &raquo;', '@popular_tags') ?></div>
+
+<h2>browse askeet</h2>
+<?php echo include_partial('sidebar/rss_links') ?>

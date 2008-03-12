@@ -32,15 +32,15 @@ class QuestionTagMapBuilder {
 
 		$tMap->setUseIdGenerator(false);
 
-		$tMap->addForeignPrimaryKey('QUESTION_ID', 'QuestionId', 'int' , CreoleTypes::INTEGER, 'ask_question', 'ID', true, null);
+		$tMap->addForeignKey('QUESTION_ID', 'QuestionId', 'int', CreoleTypes::INTEGER, 'ask_question', 'ID', false, null);
 
-		$tMap->addForeignPrimaryKey('USER_ID', 'UserId', 'int' , CreoleTypes::INTEGER, 'ask_user', 'ID', true, null);
+		$tMap->addForeignKey('USER_ID', 'UserId', 'int', CreoleTypes::INTEGER, 'ask_user', 'ID', false, null);
 
 		$tMap->addColumn('CREATED_AT', 'CreatedAt', 'int', CreoleTypes::TIMESTAMP, false, null);
 
 		$tMap->addColumn('TAG', 'Tag', 'string', CreoleTypes::VARCHAR, false, 100);
 
-		$tMap->addPrimaryKey('NORMALIZED_TAG', 'NormalizedTag', 'string', CreoleTypes::VARCHAR, true, 100);
+		$tMap->addColumn('NORMALIZED_TAG', 'NormalizedTag', 'string', CreoleTypes::VARCHAR, false, 100);
 
 	} 
 } 
