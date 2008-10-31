@@ -113,13 +113,9 @@ class Hm_View_Helper_HeadLink extends Zend_View_Helper_HeadLink {
 	 */
 	public function itemToString(stdClass $item)
 	{
-		//check if item is CSS type
-		if( $this->__isCss( $item ) ) {
-			// check if CSS-merge is enabled
-			if( $this->getIsMergeEnabled() ) {
+		//check if item is CSS type and check if CSS-merge is enabled
+		if( $this->__isCss( $item ) && $this->getIsMergeEnabled()) {
 				$this->__addCssItemToProcessingStack( $item );
-			}
-			return null;
 		} else {
 			// other than CSS type
 			return parent::itemToString( $item );
@@ -140,6 +136,9 @@ class Hm_View_Helper_HeadLink extends Zend_View_Helper_HeadLink {
 			$this->__cssItemsBeforeMerge[ $item->type ][ $item->media ] = array();
 		if( !isset( $this->__cssItemsBeforeMerge[ $item->type ][ $item->media ][ $item->conditionalStylesheet ]  ) )
 			$this->__cssItemsBeforeMerge[ $item->type ][ $item->media ][ $item->conditionalStylesheet ] = array();
+
+		//for processiong, the first slash need to be taken out
+		$item->href = substr( $item->href, 1, strlen( $item->href )-1 );
 
 		//add to stack
 		array_push(
